@@ -1,8 +1,56 @@
 # SteamRent
 
+> A web-based game rental platform built with PHP and MySQL.
+
+**Current Version:** v1.0.0 Stable
+
 SteamRent is a web-based game rental platform developed using PHP and MySQL. The application enables users to browse game catalogs, rent games, manage collections, submit reviews, and perform balance top-ups through a responsive and user-friendly interface.
 
 Originally developed as a university project, SteamRent was later refined as a personal portfolio project to showcase web application development, database design, and user experience implementation.
+
+---
+
+## About
+
+SteamRent simulates a modern digital game rental service where users can discover games, rent titles using account balance, manage personal collections, and interact with the platform through reviews and rankings.
+
+The project focuses on practical implementation of:
+
+* User Authentication
+* Database Management
+* CRUD Operations
+* Session Handling
+* File Upload Management
+* Responsive User Interface Design
+* PHP & MySQL Integration
+
+---
+
+## Release Information
+
+**Version:** v1.0.0
+
+**Status:** Stable Release
+
+### Release Highlights
+
+* Complete Authentication System
+* Game Catalog & Search Functionality
+* Trending Games Ranking
+* Rental Management System
+* User Collection Dashboard
+* Wallet & Top-Up Features
+* Review & Rating System
+* Responsive Layout
+* Dark / Light Mode Support
+
+---
+
+## Repository Information
+
+**Repository Type:** Public
+
+This repository is maintained as a portfolio and educational project demonstrating the development of a full-stack web application using PHP Native and MySQL.
 
 ---
 
