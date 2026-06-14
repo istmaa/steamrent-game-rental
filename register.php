@@ -1,13 +1,12 @@
 <?php
 session_start();
-include 'koneksi.php';
+include_once 'includes/config.php';
 
 $fullname_val = isset($_SESSION['register_old']['fullname']) ? $_SESSION['register_old']['fullname'] : '';
 $username_val = isset($_SESSION['register_old']['username']) ? $_SESSION['register_old']['username'] : '';
 $email_val = isset($_SESSION['register_old']['email']) ? $_SESSION['register_old']['email'] : '';
 $errors = isset($_SESSION['register_errors']) ? $_SESSION['register_errors'] : [];
 
-// Clear the errors and old values in session
 unset($_SESSION['register_errors']);
 unset($_SESSION['register_old']);
 ?>
@@ -17,21 +16,20 @@ unset($_SESSION['register_old']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SteamRent - Pendaftaran Akun Baru</title>
+    <!-- Google Fonts Poppins / Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="min-vh-100 position-relative" style="overflow-x: hidden;">
 
-    <!-- Canvas Background Particles -->
-    <canvas id="particles-canvas"></canvas>
-
-    <!-- Bootstrap Toasts Container -->
+    <!-- Toast Container -->
     <div id="toastContainer" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
 
     <?php
-    // Output javascript to trigger Toasts dynamically
     if (!empty($errors)) {
         foreach ($errors as $err) {
             $err_escaped = mysqli_real_escape_string($conn, $err);
@@ -56,7 +54,7 @@ unset($_SESSION['register_old']);
             </p>
         </div>
 
-        <!-- Form Side (Translucent glass feel) -->
+        <!-- Form Side -->
         <div class="auth-form-side glass-panel d-flex flex-column justify-content-center p-4 p-sm-5 animate-fade-in" style="width: 100%; max-width: 490px; z-index: 2; overflow-y: auto;">
             <div class="auth-theme-toggle">
                 <button id="themeToggle" class="btn btn-outline-light btn-sm d-flex align-items-center gap-2">
@@ -66,7 +64,7 @@ unset($_SESSION['register_old']);
 
             <div class="w-100 mt-5 mt-md-0">
                 <div class="mb-4">
-                    <a href="index.php" class="text-decoration-none text-accent small fw-semibold mb-3 d-inline-flex align-items-center gap-2" style="transition: all 0.2s ease;">
+                    <a href="index.php" class="text-decoration-none text-accent small fw-semibold mb-3 d-inline-flex align-items-center gap-2">
                         <i class="bi bi-chevron-left"></i> Kembali ke Beranda
                     </a>
                     <h2 class="fw-bold text-white mb-1">Bergabung Sekarang</h2>
@@ -137,7 +135,8 @@ unset($_SESSION['register_old']);
         </div>
     </div>
 
+    <!-- Bootstrap JS Bundle & script -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="script.js"></script>
+    <script src="assets/js/script.js"></script>
 </body>
 </html>

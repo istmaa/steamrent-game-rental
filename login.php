@@ -1,15 +1,12 @@
 <?php
 session_start();
-include 'koneksi.php';
+include_once 'includes/config.php';
 
 $old_username = isset($_SESSION['login_old_username']) ? $_SESSION['login_old_username'] : '';
 $errors = isset($_SESSION['login_errors']) ? $_SESSION['login_errors'] : [];
 $success_msg = isset($_SESSION['register_success']) ? $_SESSION['register_success'] : '';
-
-// Retrieve session toast if set in redirected controllers
 $session_toast = isset($_SESSION['toast']) ? $_SESSION['toast'] : null;
 
-// Clear session variables
 unset($_SESSION['login_old_username']);
 unset($_SESSION['login_errors']);
 unset($_SESSION['register_success']);
@@ -21,21 +18,20 @@ unset($_SESSION['toast']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SteamRent - Masuk Akun</title>
+    <!-- Google Fonts Poppins / Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="min-vh-100 position-relative" style="overflow-x: hidden;">
 
-    <!-- Canvas Background Particles -->
-    <canvas id="particles-canvas"></canvas>
-
-    <!-- Bootstrap Toasts Container -->
+    <!-- Toast Container -->
     <div id="toastContainer" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
 
     <?php
-    // Output javascript to trigger Toasts dynamically
     if ($session_toast) {
         $t_type = $session_toast['type'];
         $t_msg = mysqli_real_escape_string($conn, $session_toast['message']);
@@ -77,7 +73,7 @@ unset($_SESSION['toast']);
             </p>
         </div>
 
-        <!-- Form Side (Translucent glass feel) -->
+        <!-- Form Side -->
         <div class="auth-form-side glass-panel d-flex flex-column justify-content-center p-4 p-sm-5 animate-fade-in" style="width: 100%; max-width: 490px; z-index: 2;">
             <div class="auth-theme-toggle">
                 <button id="themeToggle" class="btn btn-outline-light btn-sm d-flex align-items-center gap-2">
@@ -87,7 +83,7 @@ unset($_SESSION['toast']);
 
             <div class="w-100">
                 <div class="mb-4">
-                    <a href="index.php" class="text-decoration-none text-accent small fw-semibold mb-3 d-inline-flex align-items-center gap-2" style="transition: all 0.2s ease;">
+                    <a href="index.php" class="text-decoration-none text-accent small fw-semibold mb-3 d-inline-flex align-items-center gap-2">
                         <i class="bi bi-chevron-left"></i> Kembali ke Beranda
                     </a>
                     <h2 class="fw-bold text-white mb-1">Selamat Datang</h2>
@@ -105,14 +101,6 @@ unset($_SESSION['toast']);
                         <input type="password" name="password" class="form-control auth-form-control <?php echo isset($errors['password']) ? 'is-invalid' : ''; ?>" placeholder="••••••••" required>
                     </div>
 
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div class="form-check">
-                            <input class="form-check-input bg-dark border-secondary" type="checkbox" id="rememberMe">
-                            <label class="form-check-label text-secondary small" for="rememberMe">Ingat Saya</label>
-                        </div>
-                        <a href="#" class="text-accent text-decoration-none small hover-underline">Lupa Sandi?</a>
-                    </div>
-
                     <button type="submit" class="btn bg-accent w-100 py-2.5 fw-bold rounded-3 mb-4 shadow-sm hover-scale">
                         Masuk Sekarang
                     </button>
@@ -125,7 +113,8 @@ unset($_SESSION['toast']);
         </div>
     </div>
 
+    <!-- Bootstrap JS Bundle & script -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="script.js"></script>
+    <script src="assets/js/script.js"></script>
 </body>
 </html>

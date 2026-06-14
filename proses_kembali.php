@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'koneksi.php';
+include_once 'includes/config.php';
 
 if (!isset($_SESSION['user_id'])) {
     $_SESSION['toast'] = ['type' => 'error', 'message' => 'Silakan login terlebih dahulu!'];
@@ -11,8 +11,11 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 $rental_id = intval($_GET['id']);
 
-// Get rental details
-$rental_query = mysqli_query($conn, "SELECT * FROM rentals WHERE id = '$rental_id' AND user_id = '$user_id' AND status = 'active'");
+// Cek kecocokan data rental aktif milik user
+$rental_query = mysqli_query($conn, "
+    SELECT * FROM rental 
+    WHERE RentalID = '$rental_id' AND UserID = '$user_id' AND Status = 'active'
+");
 $rental = mysqli_fetch_assoc($rental_query);
 
 if (!$rental) {
@@ -21,17 +24,19 @@ if (!$rental) {
     exit;
 }
 
-$game_id = $rental['game_id'];
+// Update status rental menjadi returned (Kembali)
+// Stok game dipulihkan dan logout sessionlog dicatat otomatis lewat Trigger database after_rental_update_trg
+$return_rental = mysqli_query($conn, "
+    UPDATE rental 
+    SET Status = 'returned', End_Time = NOW() 
+    WHERE RentalID = '$rental_id'
+");
 
-// Perform returning actions (game stock is automatically incremented via after_rental_update trigger)
-$return_rental = mysqli_query($conn, "UPDATE rentals SET status = 'returned', return_date = NOW() WHERE id = '$rental_id'");
-$increase_stock = true; // Handled automatically by database trigger
-
-if ($return_rental && $increase_stock) {
-    $_SESSION['toast'] = ['type' => 'success', 'message' => 'Game berhasil dikembalikan! Silakan berikan ulasan tentang pengalaman Anda bermain.'];
-    header("Location: index.php?page=collections");
+if ($return_rental) {
+    $_SESSION['toast'] = ['type' => 'success', 'message' => 'Game berhasil dikembalikan! Silakan berikan ulasan tentang pengalaman bermain Anda.'];
+    header("Location: index.php?page=profile");
 } else {
-    $_SESSION['toast'] = ['type' => 'error', 'message' => 'Gagal mengembalikan game! Terjadi kesalahan server.'];
+    $_SESSION['toast'] = ['type' => 'error', 'message' => 'Gagal mengembalikan game! Terjadi kesalahan pada server.'];
     header("Location: index.php?page=collections");
 }
 exit;

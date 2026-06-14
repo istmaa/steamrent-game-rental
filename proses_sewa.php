@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'koneksi.php';
+include_once 'includes/config.php';
 
 if (!isset($_SESSION['user_id'])) {
     $_SESSION['toast'] = ['type' => 'error', 'message' => 'Silakan login terlebih dahulu!'];
@@ -18,8 +18,8 @@ if ($duration < 1 || $duration > 72) {
     exit;
 }
 
-// Get game details
-$game_query = mysqli_query($conn, "SELECT * FROM games WHERE id = '$game_id'");
+// Cek apakah game ada di database
+$game_query = mysqli_query($conn, "SELECT * FROM game WHERE GameID = '$game_id'");
 $game = mysqli_fetch_assoc($game_query);
 
 if (!$game) {
@@ -28,32 +28,17 @@ if (!$game) {
     exit;
 }
 
-if ($game['stock'] <= 0) {
+if ($game['Stock'] <= 0) {
     $_SESSION['toast'] = ['type' => 'error', 'message' => 'Stok game sedang habis!'];
     header("Location: index.php");
     exit;
 }
 
-// Calculate total price using the SQL function
-$price_query = mysqli_query($conn, "SELECT fn_calculate_rental_price('$game_id', '$duration') AS total_price");
-$price_data = mysqli_fetch_assoc($price_query);
-$total_price = intval($price_data['total_price']);
-
-// Get user balance
-$user_query = mysqli_query($conn, "SELECT balance FROM users WHERE id = '$user_id'");
-$user = mysqli_fetch_assoc($user_query);
-
-if ($user['balance'] < $total_price) {
-    $_SESSION['toast'] = ['type' => 'error', 'message' => 'Saldo tidak mencukupi! Silakan lakukan top up terlebih dahulu.'];
-    header("Location: index.php?page=topup");
-    exit;
-}
-
-// Perform transaction via Stored Procedure
+// Panggil Stored Procedure create_rental_transaction()
 $status_code = -1;
 $status_message = "Terjadi kesalahan pada database.";
 
-$stmt = mysqli_prepare($conn, "CALL sp_rent_game(?, ?, ?, @status_code, @status_message)");
+$stmt = mysqli_prepare($conn, "CALL create_rental_transaction(?, ?, ?, @status_code, @status_message)");
 if ($stmt) {
     mysqli_stmt_bind_param($stmt, "iii", $user_id, $game_id, $duration);
     if (mysqli_stmt_execute($stmt)) {
@@ -64,10 +49,11 @@ if ($stmt) {
             $status_message = $out_params['status_message'];
         }
     }
+    mysqli_stmt_close($stmt);
 }
 
 if ($status_code === 0) {
-    $_SESSION['toast'] = ['type' => 'success', 'message' => 'Sewa game berhasil! Silakan cek di riwayat rental Anda.'];
+    $_SESSION['toast'] = ['type' => 'success', 'message' => 'Sewa game berhasil! Silakan cek di pustaka game aktif Anda.'];
     header("Location: index.php?page=collections");
 } else {
     $_SESSION['toast'] = ['type' => 'error', 'message' => 'Gagal menyewa game! ' . $status_message];

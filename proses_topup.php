@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'koneksi.php';
+include_once 'includes/config.php';
 
 if (!isset($_SESSION['user_id'])) {
     $_SESSION['toast'] = ['type' => 'error', 'message' => 'Silakan login terlebih dahulu!'];
@@ -17,11 +17,14 @@ if ($amount < 10000) {
     exit;
 }
 
-// Start transaction or run queries sequentially
-$query_topup = mysqli_query($conn, "INSERT INTO topups(user_id, amount) VALUES('$user_id', '$amount')");
-$query_user = mysqli_query($conn, "UPDATE users SET balance = balance + $amount WHERE id = '$user_id'");
+// Tambahkan saldo pengguna di tabel users
+$query_user = mysqli_query($conn, "
+    UPDATE users 
+    SET Balance = Balance + $amount 
+    WHERE UserID = '$user_id'
+");
 
-if ($query_topup && $query_user) {
+if ($query_user) {
     $_SESSION['toast'] = ['type' => 'success', 'message' => 'Top up berhasil! Saldo Anda telah ditambahkan sebesar Rp ' . number_format($amount, 0, ',', '.') . '.'];
     header("Location: index.php?page=collections");
 } else {
