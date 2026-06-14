@@ -9,6 +9,20 @@ All notable changes to the SteamRent project are documented in this file.
 - **Updated Catalog Price Filters**: Modified price filters on `pages/games.php` to match the new pricing tiers (Rp 1.000 - Rp 2.000, Rp 2.001 - Rp 3.000, Rp 3.001 - Rp 4.000, Rp 4.001 - Rp 5.000).
 - **Reviewed Game Badges**: Trimmed and reviewed game badges (`HOT`, `TRENDING`, `NEW`) to highlight only appropriate, high-interest titles instead of assigning badges to all entries.
 
+## [v1.9 Hero Banner Preparation] - 2026-06-13
+### Added
+- **Support Dedicated Banner Assets**: Sourced widescreen landscape banners with PNG format compatibility and 16:6 aspect ratio.
+- **Separated Banner and Poster Assets**: Created structural segregation between card-based vertical game posters and hero landscape backgrounds under `assets/images/banners/`.
+- **Responsive Hero Improvements**: Sized hero height dynamically (Desktop: 580px, Tablet: 460px, Mobile: 320px) and set scale behavior to cover centering.
+- **Fallback Background Support**: Integrated an automated filesystem existence check to display a clean neutral dark linear gradient if a banner asset is missing.
+
+## [v1.9.1 - Hero Banner Upgrade] - 2026-06-13
+### Added
+- **Separated Banner Assets**: Created a dedicated folder `assets/images/banners/` for storing horizontal wide-screen banner backgrounds.
+- **Improved Hero Image Rendering**: Configured the homepage hero carousel to load cinematic landscape banner files for recommended games instead of stretching vertical posters.
+- **Added Cinematic Overlay**: Replaced standard overlays with a stronger linear gradient (`linear-gradient(90deg, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.10) 100%)`) to enhance text readability.
+- **Improved Responsiveness**: Replaced fixed heights on `.carousel-item-content` with viewport-specific height boundaries (Desktop: 560px, Tablet: 460px, Mobile: 320px).
+
 ## [v1.9] - 2026-06-13
 ### Removed
 - **Testing Users**: Removed all development/testing accounts (`Anonimus`, `anonimus2`, `anonimuss`) from the `users` table, resetting the auto-increment starting index back to 1.
@@ -144,6 +158,18 @@ The following is a comprehensive summary of key milestones across previous Steam
 - Empty table records for rental, payment, sessionlog, reviews, and topups.
 - Preserved default 50-game catalog entries with proper descriptions and images.
 - Validated views, functions, stored procedures, and triggers.
+
+### v1.9 - Hero Banner Preparation
+- Support Dedicated Banner Assets: Widescreen landscape banners with PNG compatibility and 16:6 aspect ratio.
+- Separated Banner and Poster Assets: Created structural segregation between card-based vertical game posters and hero landscape backgrounds under `assets/images/banners/`.
+- Responsive Hero Improvements: Sized hero height dynamically (Desktop: 580px, Tablet: 460px, Mobile: 320px) and set scale behavior to cover centering.
+- Fallback Background Support: Integrated an automated filesystem existence check to display a clean neutral dark linear gradient if a banner asset is missing.
+
+### v1.9.1 - Hero Banner Upgrade
+- Separated Banner Assets: Created a dedicated folder `assets/images/banners/` for storing horizontal wide-screen banner backgrounds.
+- Improved Hero Image Rendering: Configured the homepage hero carousel to load cinematic landscape banner files for recommended games instead of stretching vertical posters.
+- Added Cinematic Overlay: Replaced standard overlays with a stronger linear gradient to enhance text readability.
+- Improved Responsiveness: Replaced fixed heights on `.carousel-item-content` with viewport-specific height boundaries (Desktop: 560px, Tablet: 460px, Mobile: 320px).
 
 ### v2.0 - Game Asset & Pricing Update
 - Migrated game posters from remote Pinterest URLs to local storage.

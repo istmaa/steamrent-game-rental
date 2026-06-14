@@ -70,9 +70,27 @@ $newest_home_query = mysqli_query($conn, "
 
         <!-- Slides -->
         <div class="carousel-inner">
-            <?php foreach ($carousel_games as $index => $game): ?>
+            <?php foreach ($carousel_games as $index => $game): 
+                $banner_path = '';
+                if ($game['GameID'] == 1) {
+                    $banner_path = 'assets/images/banners/cyberpunk_banner.png';
+                } elseif ($game['GameID'] == 2) {
+                    $banner_path = 'assets/images/banners/elden_ring_banner.png';
+                } elseif ($game['GameID'] == 12) {
+                    $banner_path = 'assets/images/banners/rdr2_banner.png';
+                } elseif ($game['GameID'] == 11) {
+                    $banner_path = 'assets/images/banners/gta_v_banner.png';
+                }
+                
+                // Check if banner file exists, else use neutral dark gradient fallback
+                $banner_exists = !empty($banner_path) && file_exists(dirname(__DIR__) . '/' . $banner_path);
+                
+                $inline_style = $banner_exists 
+                    ? "background-image: url('" . htmlspecialchars($banner_path) . "');" 
+                    : "background: linear-gradient(135deg, #151a2e 0%, #0d111b 100%);";
+            ?>
                 <div class="carousel-item <?php echo $index === 0 ? 'active' : ''; ?>">
-                    <div class="carousel-item-content position-relative" style="background-image: url('<?php echo htmlspecialchars($game['Image_URL']); ?>');">
+                    <div class="carousel-item-content position-relative" style="<?php echo $inline_style; ?>">
                         <div class="carousel-overlay"></div>
                         <div class="carousel-text-wrapper text-white">
                             <span class="badge bg-danger mb-3 px-3 py-2 rounded-pill">
