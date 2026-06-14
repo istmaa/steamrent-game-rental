@@ -604,3 +604,234 @@ body.light-mode .coming-soon-card {
 body.light-mode .carousel-indicators .active {
     background-color: #0252cf;
 }
+
+/* Fix carousel control arrows clickability */
+.carousel-control-prev, .carousel-control-next {
+    z-index: 10 !important;
+    width: 6% !important;
+}
+
+/* Premium Card Badges */
+.card-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    padding: 4px 8px !important;
+    text-transform: uppercase;
+}
+.badge-premium-hot {
+    background-color: #ef4444 !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.badge-premium-trending {
+    background-color: #eab308 !important;
+    color: #000000 !important;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.badge-premium-new {
+    background-color: #3b82f6 !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.badge-premium-default {
+    background-color: #6b7280 !important;
+    color: #ffffff !important;
+}
+
+/* ==================================================
+   STEAMRENT V1.8 - LEADERBOARD & TEXT LINKS POLISH
+   ================================================== */
+
+/* Section link style matching Steam Store links (text-only, no border/background) */
+.section-link-custom {
+    color: #38bdf8 !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+    font-size: 0.875rem !important;
+    transition: color 0.2s ease, transform 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+.section-link-custom:hover {
+    color: #0ea5e9 !important;
+    text-decoration: underline !important;
+}
+body.light-mode .section-link-custom {
+    color: #0252cf !important;
+}
+body.light-mode .section-link-custom:hover {
+    color: #0284c7 !important;
+}
+
+/* Leaderboard Rows Layout */
+.trending-row-item {
+    background-color: #0d111b;
+    border: 1px solid #1e293b;
+    transition: all 0.25s ease;
+}
+.trending-row-item:hover {
+    background-color: #121827;
+    border-color: #38bdf8 !important;
+}
+body.light-mode .trending-row-item {
+    background-color: #ffffff !important;
+    border-color: #cbd5e1 !important;
+}
+body.light-mode .trending-row-item:hover {
+    background-color: #f8fafc !important;
+    border-color: #0252cf !important;
+}
+
+/* Leaderboard rank accent highlights */
+.rank-1-premium {
+    border-left: 4px solid #eab308 !important;
+    box-shadow: 0 4px 15px rgba(234, 179, 8, 0.08) !important;
+    background: linear-gradient(90deg, rgba(234, 179, 8, 0.03) 0%, rgba(13, 17, 27, 0) 100%) !important;
+}
+body.light-mode .rank-1-premium {
+    border-left: 4px solid #d97706 !important;
+    box-shadow: 0 4px 15px rgba(217, 119, 6, 0.05) !important;
+    background: linear-gradient(90deg, rgba(217, 119, 6, 0.05) 0%, rgba(255, 255, 255, 0) 100%) !important;
+}
+
+.rank-2-silver {
+    border-left: 4px solid #cbd5e1 !important;
+    box-shadow: 0 4px 15px rgba(203, 213, 225, 0.05) !important;
+    background: linear-gradient(90deg, rgba(203, 213, 225, 0.03) 0%, rgba(13, 17, 27, 0) 100%) !important;
+}
+body.light-mode .rank-2-silver {
+    border-left: 4px solid #94a3b8 !important;
+    box-shadow: 0 4px 15px rgba(148, 163, 184, 0.03) !important;
+    background: linear-gradient(90deg, rgba(148, 163, 184, 0.05) 0%, rgba(255, 255, 255, 0) 100%) !important;
+}
+
+.rank-3-bronze {
+    border-left: 4px solid #b45309 !important;
+    box-shadow: 0 4px 15px rgba(180, 83, 9, 0.05) !important;
+    background: linear-gradient(90deg, rgba(180, 83, 9, 0.03) 0%, rgba(13, 17, 27, 0) 100%) !important;
+}
+body.light-mode .rank-3-bronze {
+    border-left: 4px solid #b45309 !important;
+    box-shadow: 0 4px 15px rgba(180, 83, 9, 0.03) !important;
+    background: linear-gradient(90deg, rgba(180, 83, 9, 0.05) 0%, rgba(255, 255, 255, 0) 100%) !important;
+}
+
+/* Custom Leaderboard Badges */
+.badge-custom-rank {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 75px;
+}
+.badge-gold-solid {
+    background-color: rgba(234, 179, 8, 0.15) !important;
+    border: 1px solid rgba(234, 179, 8, 0.4) !important;
+    color: #f59e0b !important;
+}
+.badge-silver-solid {
+    background-color: rgba(203, 213, 225, 0.15) !important;
+    border: 1px solid rgba(203, 213, 225, 0.4) !important;
+    color: #cbd5e1 !important;
+}
+.badge-bronze-solid {
+    background-color: rgba(180, 83, 9, 0.15) !important;
+    border: 1px solid rgba(180, 83, 9, 0.4) !important;
+    color: #f97316 !important;
+}
+
+body.light-mode .badge-gold-solid {
+    background-color: rgba(217, 119, 6, 0.1) !important;
+    color: #b45309 !important;
+    border-color: rgba(217, 119, 6, 0.3) !important;
+}
+body.light-mode .badge-silver-solid {
+    background-color: rgba(148, 163, 184, 0.1) !important;
+    color: #475569 !important;
+    border-color: rgba(148, 163, 184, 0.3) !important;
+}
+body.light-mode .badge-bronze-solid {
+    background-color: rgba(194, 65, 12, 0.1) !important;
+    color: #c2410c !important;
+    border-color: rgba(194, 65, 12, 0.3) !important;
+}
+
+/* Leaderboard columns alignment rules */
+.trending-rank {
+    width: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+.rank-number {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #64748b;
+}
+body.light-mode .rank-number {
+    color: #94a3b8;
+}
+.trending-info {
+    flex-grow: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.trending-info-title {
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+.trending-info-genre {
+    font-size: 0.8rem;
+    color: #94a3b8;
+}
+body.light-mode .trending-info-genre {
+    color: #64748b;
+}
+.trending-stat {
+    width: 130px;
+    text-align: center;
+    flex-shrink: 0;
+}
+.trending-rating {
+    width: 140px;
+    text-align: center;
+    flex-shrink: 0;
+}
+.trending-price {
+    width: 140px;
+    text-align: center;
+    flex-shrink: 0;
+}
+.trending-action {
+    width: 100px;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+/* Text visibility adjustments for low contrast ratings */
+.rating-text-subtle {
+    color: #94a3b8 !important;
+    font-weight: 500;
+}
+body.light-mode .rating-text-subtle {
+    color: #64748b !important;
+}

@@ -105,12 +105,12 @@ $newest_home_query = mysqli_query($conn, "
 <?php endif; ?>
 
 <!-- Section 1: Terpopuler Saat Ini -->
-<div class="d-flex justify-content-between align-items-end mb-4 animate-fade-in text-white">
-    <h4 class="fw-bold m-0">
-        <i class="bi bi-graph-up-arrow text-accent me-2"></i> Terpopuler Saat Ini
-    </h4>
-    <a href="index.php?page=trending" class="btn btn-sm btn-outline-accent fw-bold px-3 py-1.5 rounded-2 text-decoration-none">
-        Lihat Semua <i class="bi bi-arrow-right ms-1"></i>
+<div class="d-flex justify-content-between align-items-end mb-4 mt-5 pt-3 animate-fade-in text-white">
+    <h3 class="fw-bold m-0 fs-3">
+        ⚡ Terpopuler Saat Ini
+    </h3>
+    <a href="index.php?page=trending" class="section-link-custom">
+        Lihat Semua &rarr;
     </a>
 </div>
 
@@ -182,12 +182,12 @@ $newest_home_query = mysqli_query($conn, "
 </div>
 
 <!-- Section 2: Rilis Terbaru -->
-<div class="d-flex justify-content-between align-items-end mb-4 animate-fade-in text-white">
-    <h4 class="fw-bold m-0">
-        <i class="bi bi-fire text-accent me-2"></i> Rilis Terbaru
-    </h4>
-    <a href="index.php?page=games" class="text-accent text-decoration-none small fw-semibold">
-        Lihat Semua Katalog <i class="bi bi-arrow-right ms-1"></i>
+<div class="d-flex justify-content-between align-items-end mb-4 mt-5 pt-3 animate-fade-in text-white">
+    <h3 class="fw-bold m-0 fs-3">
+        🚀 Rilis Terbaru
+    </h3>
+    <a href="index.php?page=games" class="section-link-custom">
+        Lihat Semua Katalog &rarr;
     </a>
 </div>
 

@@ -191,10 +191,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('gameSearchInput');
     const btnClear = document.getElementById('btnClearSearch');
     const suggestionsBox = document.getElementById('searchSuggestions');
+    let currentFocus = -1;
 
     if (searchInput) {
         searchInput.addEventListener('input', () => {
             const query = searchInput.value.trim();
+            currentFocus = -1;
             if (query.length > 0) {
                 btnClear.classList.remove('d-none');
                 
@@ -228,6 +230,45 @@ document.addEventListener('DOMContentLoaded', () => {
                 suggestionsBox.classList.add('d-none');
             }
         });
+
+        // Keyboard navigation support
+        searchInput.addEventListener('keydown', (e) => {
+            const items = suggestionsBox.querySelectorAll('.suggestion-item');
+            if (items.length === 0) return;
+            
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                currentFocus++;
+                setActive(items);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                currentFocus--;
+                setActive(items);
+            } else if (e.key === 'Enter') {
+                if (currentFocus > -1) {
+                    e.preventDefault();
+                    if (items[currentFocus]) {
+                        items[currentFocus].click();
+                    }
+                }
+            }
+        });
+
+        function setActive(items) {
+            if (!items) return false;
+            removeActive(items);
+            if (currentFocus >= items.length) currentFocus = 0;
+            if (currentFocus < 0) currentFocus = items.length - 1;
+            
+            items[currentFocus].classList.add('bg-secondary', 'bg-opacity-25');
+            items[currentFocus].scrollIntoView({ block: 'nearest' });
+        }
+
+        function removeActive(items) {
+            for (let i = 0; i < items.length; i++) {
+                items[i].classList.remove('bg-secondary', 'bg-opacity-25');
+            }
+        }
 
         // Hide suggestions when clicking outside
         document.addEventListener('click', (e) => {

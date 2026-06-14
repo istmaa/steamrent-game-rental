@@ -32,8 +32,10 @@ switch ($page) {
         break;
     case 'collections':
     case 'rental-history':
-    case 'topup':
         include_once 'pages/collections.php';
+        break;
+    case 'topup':
+        include_once 'pages/topup.php';
         break;
     case 'profile':
         include_once 'pages/profile.php';

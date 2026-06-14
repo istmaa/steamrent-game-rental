@@ -4,199 +4,186 @@ include_once 'includes/auth.php'; // Keamanan sesi
 
 $user_id = $_SESSION['user_id'];
 
-// Ambil profil user lengkap
-$profile_query = mysqli_query($conn, "SELECT Name, Email, CreatedAt, Profile_Image, Balance FROM users WHERE UserID = '$user_id'");
+// Handle Profile Updates (Username and Password)
+if (isset($_POST['update_profile'])) {
+    $new_username = trim($_POST['username']);
+    $new_password = $_POST['new_password'];
+    $confirm_password = $_POST['confirm_password'];
+    
+    $update_fields = [];
+    
+    // Validasi Username
+    if (!empty($new_username)) {
+        if (strlen($new_username) < 4) {
+            $_SESSION['toast'] = ['type' => 'error', 'message' => 'Username minimal harus 4 karakter!'];
+            header("Location: index.php?page=profile");
+            exit;
+        }
+        
+        $username_escaped = mysqli_real_escape_string($conn, $new_username);
+        // Cek keunikan username
+        $check_username = mysqli_query($conn, "SELECT UserID FROM users WHERE Name = '$username_escaped' AND UserID != '$user_id'");
+        if (mysqli_num_rows($check_username) > 0) {
+            $_SESSION['toast'] = ['type' => 'error', 'message' => 'Username sudah terdaftar! Silakan gunakan username lain.'];
+            header("Location: index.php?page=profile");
+            exit;
+        }
+        
+        $update_fields[] = "Name = '$username_escaped'";
+        $_SESSION['username'] = $new_username; // Sinkronisasi sesi
+    }
+    
+    // Validasi Password Baru
+    if (!empty($new_password)) {
+        if (strlen($new_password) < 8) {
+            $_SESSION['toast'] = ['type' => 'error', 'message' => 'Password minimal harus 8 karakter!'];
+            header("Location: index.php?page=profile");
+            exit;
+        }
+        if ($new_password !== $confirm_password) {
+            $_SESSION['toast'] = ['type' => 'error', 'message' => 'Konfirmasi password baru tidak cocok!'];
+            header("Location: index.php?page=profile");
+            exit;
+        }
+        
+        $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+        $update_fields[] = "Password = '$hashed_password'";
+    }
+    
+    if (!empty($update_fields)) {
+        $update_query_str = "UPDATE users SET " . implode(', ', $update_fields) . " WHERE UserID = '$user_id'";
+        if (mysqli_query($conn, $update_query_str)) {
+            $_SESSION['toast'] = ['type' => 'success', 'message' => 'Pengaturan akun Anda berhasil diperbarui!'];
+        } else {
+            $_SESSION['toast'] = ['type' => 'error', 'message' => 'Gagal memperbarui pengaturan! Terjadi kesalahan server.'];
+        }
+    } else {
+        $_SESSION['toast'] = ['type' => 'info', 'message' => 'Tidak ada perubahan profil yang disimpan.'];
+    }
+    
+    header("Location: index.php?page=profile");
+    exit;
+}
+
+// Ambil info data user terbaru
+$profile_query = mysqli_query($conn, "SELECT Name, FullName, Email, CreatedAt, Profile_Image FROM users WHERE UserID = '$user_id'");
 $user = mysqli_fetch_assoc($profile_query);
 
 if (!$user) {
     echo "<p class='text-danger'>User tidak ditemukan.</p>";
     exit;
 }
-
-// Ambil jumlah total rental (Subquery/Agregat)
-$count_query = mysqli_query($conn, "SELECT COUNT(*) as total_rentals FROM rental WHERE UserID = '$user_id'");
-$count_data = mysqli_fetch_assoc($count_query);
-$total_rentals = $count_data['total_rentals'];
-
-// Ambil riwayat rental selesai (terbaru 5 data) untuk ringkasan
-$completed_query = mysqli_query($conn, "
-    SELECT r.*, g.Game_Name, g.Image_URL, g.Genre 
-    FROM rental r 
-    JOIN game g ON r.GameID = g.GameID 
-    WHERE r.UserID = '$user_id' AND r.Status = 'returned' 
-    ORDER BY r.End_Time DESC 
-    LIMIT 5
-");
 ?>
 
-<div class="row g-4 animate-fade-in">
-    <!-- Kolom Kiri: Kartu Profil Utama -->
-    <div class="col-12 col-md-5 col-lg-4">
-        <div class="user-box p-4 rounded-4 text-center text-white d-flex flex-column align-items-center">
-            <!-- Avatar Display -->
-            <div class="position-relative mb-3">
-                <?php if (!empty($user['Profile_Image']) && file_exists('uploads/profile/' . $user['Profile_Image'])): ?>
-                    <img src="uploads/profile/<?php echo htmlspecialchars($user['Profile_Image']); ?>" class="rounded-circle border border-accent border-3" style="width: 110px; height: 110px; object-fit: cover;" alt="Avatar">
-                <?php else: ?>
-                    <i class="bi bi-person-circle text-accent" style="font-size: 100px;"></i>
-                <?php endif; ?>
+<div class="row g-4 mb-4 animate-fade-in text-white">
+    <div class="col-12">
+        <div class="user-box p-4 rounded-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <div>
+                <h4 class="fw-bold text-white mb-1"><i class="bi bi-person-circle text-accent me-2"></i>Pengaturan Akun</h4>
+                <p class="text-secondary small mb-0">Kelola kredensial akun, keamanan kata sandi, dan foto profil Anda.</p>
             </div>
-
-            <h4 class="fw-bold text-white mb-1"><?php echo htmlspecialchars($user['Name']); ?></h4>
-            <p class="text-secondary small mb-3"><?php echo htmlspecialchars($user['Email']); ?></p>
-
-            <div class="w-100 p-3 rounded bg-dark bg-opacity-40 mb-3 text-start small border border-secondary border-opacity-50">
-                <div class="d-flex justify-content-between mb-2">
-                    <span class="text-secondary">Tanggal Bergabung:</span>
-                    <span class="text-white fw-medium"><?php echo date('d M Y', strtotime($user['CreatedAt'])); ?></span>
-                </div>
-                <div class="d-flex justify-content-between mb-2">
-                    <span class="text-secondary">Total Transaksi Sewa:</span>
-                    <span class="text-white fw-bold"><?php echo $total_rentals; ?> Kali</span>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <span class="text-secondary">Sisa Saldo:</span>
-                    <span class="text-accent fw-bold">Rp <?php echo number_format($user['Balance'], 0, ',', '.'); ?></span>
-                </div>
-            </div>
-
-            <!-- Avatar Editor Widget -->
-            <div class="w-100 border-top border-secondary border-opacity-25 pt-3 mt-2">
-                <h6 class="fw-bold text-white text-start mb-2" style="font-size: 13px;">Ganti Foto Profil:</h6>
-                <form action="proses_upload.php" method="POST" enctype="multipart/form-data" class="w-100 text-start">
-                    <div class="mb-2">
-                        <input type="file" name="profile_image" class="form-control form-control-sm bg-dark border-secondary text-white" accept="image/*" style="font-size: 11px;" required>
-                    </div>
-                    <button type="submit" name="submit_avatar" class="btn btn-sm bg-accent w-100 fw-bold py-1.5" style="font-size: 11px;">
-                        <i class="bi bi-cloud-arrow-up-fill me-1"></i> Perbarui Avatar
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Kolom Kanan: Ringkasan Riwayat Rental -->
-    <div class="col-12 col-md-7 col-lg-8 text-white">
-        <div class="user-box p-4 rounded-4 h-100 border border-secondary">
-            <h5 class="fw-bold text-white mb-4"><i class="bi bi-clock-history text-accent me-2"></i>Ringkasan Riwayat Bermain (Selesai)</h5>
-
-            <div class="d-flex flex-column gap-3">
-                <?php
-                if ($completed_query && mysqli_num_rows($completed_query) > 0) {
-                    while ($r = mysqli_fetch_assoc($completed_query)) {
-                        ?>
-                        <div class="d-flex align-items-center justify-content-between p-3 rounded flex-wrap gap-3 completed-rental-item glass-panel">
-                            <div class="d-flex align-items-center gap-3 flex-wrap">
-                                <?php if (!empty($r['Image_URL'])): ?>
-                                    <img src="<?php echo htmlspecialchars($r['Image_URL']); ?>" class="rounded" style="width: 50px; height: 65px; object-fit: cover;" alt="<?php echo htmlspecialchars($r['Game_Name']); ?>" loading="lazy">
-                                <?php else: ?>
-                                    <div class="empty-image rounded d-flex align-items-center justify-content-center bg-secondary" style="width: 50px; height: 65px;">
-                                        <small style="font-size: 8px;">Poster</small>
-                                    </div>
-                                <?php endif; ?>
-                                <div>
-                                    <div class="fw-bold text-white"><?php echo htmlspecialchars($r['Game_Name']); ?></div>
-                                    <small class="text-secondary">
-                                        <i class="bi bi-calendar-check-fill me-1"></i>Selesai (<?php echo date('d M Y H:i', strtotime($r['End_Time'])); ?>)
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="text-center text-md-end">
-                                <small class="text-secondary d-block" style="font-size: 10px;">Durasi Bermain:</small>
-                                <span class="text-light fw-semibold"><?php echo $r['Duration']; ?> Jam</span>
-                            </div>
-                            <div>
-                                <!-- Tulis Ulasan Trigger Modal -->
-                                <?php
-                                $game_id = $r['GameID'];
-                                $review_check_q = mysqli_query($conn, "SELECT ReviewID FROM reviews WHERE UserID = '$user_id' AND GameID = '$game_id'");
-                                $already_reviewed = mysqli_num_rows($review_check_q) > 0;
-                                if (!$already_reviewed):
-                                ?>
-                                    <button class="btn btn-sm btn-ulas-game fw-bold px-3 py-2 rounded-2 me-2" data-bs-toggle="modal" data-bs-target="#reviewModal" data-game-id="<?php echo $game_id; ?>" data-game-title="<?php echo htmlspecialchars($r['Game_Name']); ?>">
-                                        <i class="bi bi-star-fill me-1"></i> Ulas Game
-                                    </button>
-                                <?php endif; ?>
-                                <a href="index.php?page=rent&game_id=<?php echo $r['GameID']; ?>" class="btn btn-sm btn-outline-info fw-bold px-3 py-2 rounded-2">Sewa Lagi</a>
-                            </div>
-                        </div>
-                        <?php
-                    }
-                } else {
-                    ?>
-                    <div class="text-center py-5">
-                        <i class="bi bi-journal-x text-secondary" style="font-size: 30px;"></i>
-                        <p class="text-secondary small mt-2 mb-0">Belum ada riwayat sewa game yang selesai.</p>
-                    </div>
-                    <?php
-                }
-                ?>
-            </div>
-
-            <?php if ($total_rentals > 5): ?>
-                <div class="text-center mt-4 border-top border-secondary border-opacity-25 pt-3">
-                    <a href="index.php?page=rental-history" class="text-accent text-decoration-none small fw-semibold">
-                        Lihat Seluruh Riwayat Rental <i class="bi bi-arrow-right"></i>
-                    </a>
-                </div>
-            <?php endif; ?>
         </div>
     </div>
 </div>
 
-<!-- Modal Ulasan Game -->
-<div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content glass-panel border border-secondary text-white">
-            <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title fw-bold" id="reviewModalLabel"><i class="bi bi-star-fill text-warning me-2"></i>Berikan Ulasan</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+<div class="row g-4 text-white">
+    <!-- Left Column: Avatar & Account Metadata Info (Read Only) -->
+    <div class="col-12 col-md-5 col-lg-4 animate-fade-in">
+        <div class="user-box p-4 rounded-4 text-center d-flex flex-column align-items-center glass-panel">
+            
+            <!-- Avatar Display & Upload Form -->
+            <div class="position-relative mb-3">
+                <?php if (!empty($user['Profile_Image']) && file_exists('uploads/profile/' . $user['Profile_Image'])): ?>
+                    <img src="uploads/profile/<?php echo htmlspecialchars($user['Profile_Image']); ?>" class="rounded-circle border border-accent border-3" style="width: 120px; height: 120px; object-fit: cover;" alt="Avatar">
+                <?php else: ?>
+                    <i class="bi bi-person-circle text-accent" style="font-size: 110px;"></i>
+                <?php endif; ?>
             </div>
-            <form action="proses_review.php" method="POST">
-                <input type="hidden" name="game_id" id="modal_game_id">
-                <div class="modal-body">
-                    <p class="text-secondary small">Bagikan pengalaman Anda bermain <strong class="text-white" id="modal_game_title">Game</strong>. Ulasan Anda membantu gamer lainnya!</p>
+
+            <!-- Avatar Uploader -->
+            <form action="proses_upload.php" method="POST" enctype="multipart/form-data" class="w-100 text-start border-bottom border-secondary border-opacity-25 pb-3 mb-3">
+                <label class="form-label text-white small fw-bold d-block mb-2 text-center" style="font-size: 12px;">Ganti Foto Profil</label>
+                <div class="mb-2">
+                    <input type="file" name="profile_image" class="form-control form-control-sm bg-dark border-secondary text-white" accept="image/*" style="font-size: 11px;" required>
+                </div>
+                <button type="submit" name="submit_avatar" class="btn btn-sm bg-accent w-100 fw-bold py-1.5" style="font-size: 11px;">
+                    <i class="bi bi-cloud-arrow-up-fill me-1"></i> Perbarui Avatar
+                </button>
+            </form>
+
+            <!-- Metadata Info Box -->
+            <div class="w-100 text-start small text-secondary d-flex flex-column gap-2 mt-2">
+                <div class="d-flex justify-content-between">
+                    <span>UserID:</span>
+                    <span class="text-white fw-medium">#<?php echo $user_id; ?></span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span>Tanggal Bergabung:</span>
+                    <span class="text-white fw-medium"><?php echo date('d M Y', strtotime($user['CreatedAt'])); ?></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Right Column: Account Information Form (Editable fields) -->
+    <div class="col-12 col-md-7 col-lg-8 animate-fade-in">
+        <div class="user-box p-4 rounded-4 glass-panel h-100 border border-secondary">
+            <h5 class="fw-bold text-white mb-4"><i class="bi bi-shield-lock text-accent me-2"></i>Informasi & Keamanan Akun</h5>
+            
+            <form action="index.php?page=profile" method="POST">
+                <div class="row g-3">
                     
-                    <div class="mb-3">
-                        <label class="form-label text-white small fw-semibold d-block">Rating Bintang</label>
-                        <div class="star-rating-select">
-                            <input type="radio" id="star5" name="rating" value="5" required><label for="star5" title="5 bintang"><i class="bi bi-star-fill"></i></label>
-                            <input type="radio" id="star4" name="rating" value="4"><label for="star4" title="4 bintang"><i class="bi bi-star-fill"></i></label>
-                            <input type="radio" id="star3" name="rating" value="3"><label for="star3" title="3 bintang"><i class="bi bi-star-fill"></i></label>
-                            <input type="radio" id="star2" name="rating" value="2"><label for="star2" title="2 bintang"><i class="bi bi-star-fill"></i></label>
-                            <input type="radio" id="star1" name="rating" value="1"><label for="star1" title="1 bintang"><i class="bi bi-star-fill"></i></label>
+                    <!-- Full Name (Read-Only) -->
+                    <div class="col-12 col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label text-secondary small fw-medium">Nama Lengkap</label>
+                            <input type="text" class="form-control auth-form-control bg-dark border-secondary text-white-50" value="<?php echo htmlspecialchars($user['FullName']); ?>" readonly style="cursor: not-allowed; opacity: 0.75;">
+                            <small class="text-secondary" style="font-size: 10px;">Nama lengkap tidak dapat diubah.</small>
                         </div>
                     </div>
-                    
-                    <div class="mb-3">
-                        <label for="comment" class="form-label text-white small fw-semibold">Komentar / Ulasan</label>
-                        <textarea name="comment" id="comment" rows="4" class="form-control bg-dark border-secondary text-white" placeholder="Tulis ulasan Anda di sini..." required></textarea>
+
+                    <!-- Email Address (Read-Only) -->
+                    <div class="col-12 col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label text-secondary small fw-medium">Alamat Email</label>
+                            <input type="email" class="form-control auth-form-control bg-dark border-secondary text-white-50" value="<?php echo htmlspecialchars($user['Email']); ?>" readonly style="cursor: not-allowed; opacity: 0.75;">
+                            <small class="text-secondary" style="font-size: 10px;">Email utama tidak dapat diubah.</small>
+                        </div>
                     </div>
+
+                    <!-- Username (Editable) -->
+                    <div class="col-12">
+                        <div class="mb-3 border-top border-secondary border-opacity-25 pt-3">
+                            <label class="form-label text-white small fw-bold">Nama Pengguna (Username)</label>
+                            <input type="text" name="username" class="form-control auth-form-control bg-dark border-secondary text-white" value="<?php echo htmlspecialchars($user['Name']); ?>" placeholder="Masukkan username baru" required>
+                            <small class="text-secondary" style="font-size: 10px;">Digunakan untuk masuk log (login) ke dalam sistem.</small>
+                        </div>
+                    </div>
+
+                    <!-- Password Fields (Editable) -->
+                    <div class="col-12 col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label text-white small fw-medium">Kata Sandi Baru</label>
+                            <input type="password" name="new_password" class="form-control auth-form-control bg-dark border-secondary text-white" placeholder="Kosongkan jika tidak ingin diubah">
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label text-white small fw-medium">Konfirmasi Kata Sandi Baru</label>
+                            <input type="password" name="confirm_password" class="form-control auth-form-control bg-dark border-secondary text-white" placeholder="Ulangi kata sandi baru Anda">
+                        </div>
+                    </div>
+
                 </div>
-                <div class="modal-footer border-0 pt-0">
-                    <button type="button" class="btn btn-sm btn-outline-light px-3" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-sm bg-accent fw-bold px-3">Kirim Ulasan</button>
+
+                <div class="mt-4 pt-2 border-top border-secondary border-opacity-25">
+                    <button type="submit" name="update_profile" class="btn bg-accent fw-bold px-4 py-2 rounded-3 hover-scale">
+                        Simpan Perubahan Akun
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const reviewModal = document.getElementById('reviewModal');
-        if (reviewModal) {
-            reviewModal.addEventListener('show.bs.modal', function (event) {
-                const button = event.relatedTarget;
-                const gameId = button.getAttribute('data-game-id');
-                const gameTitle = button.getAttribute('data-game-title');
-                
-                const modalGameIdInput = reviewModal.querySelector('#modal_game_id');
-                const modalGameTitleSpan = reviewModal.querySelector('#modal_game_title');
-                
-                modalGameIdInput.value = gameId;
-                modalGameTitleSpan.textContent = gameTitle;
-            });
-        }
-    });
-</script>

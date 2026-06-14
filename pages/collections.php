@@ -250,123 +250,15 @@ $topup_history_query = mysqli_query($conn, "
 
     </div>
 
-    <!-- Right Column: Wallet Balance & Inline Top-Up Form -->
-    <div class="col-12 col-lg-4">
+    <!-- Right Column: Wallet Balance Summary & Top Up Button -->
+    <div class="col-12 col-lg-4 animate-fade-in">
         <!-- Balance Display Card -->
         <div class="user-box p-4 rounded-4 border border-secondary mb-4 glass-panel">
             <small class="text-secondary text-uppercase fw-semibold tracking-wider d-block mb-1" style="font-size: 10px;">SALDO DOMPET AKUN</small>
-            <h2 class="fw-bold text-white m-0">Rp <?php echo number_format($user_balance, 0, ',', '.'); ?></h2>
-        </div>
-
-        <!-- Inline Top-Up Form Card -->
-        <div class="user-box p-4 rounded-4 border border-secondary mb-4 glass-panel">
-            <h5 class="fw-bold text-white mb-3"><i class="bi bi-wallet2 text-success me-2"></i>Form Top-Up Saldo</h5>
-            <form action="proses_topup.php" method="POST">
-                <div class="mb-3">
-                    <label class="form-label text-white small fw-medium">Jumlah Nominal (Rupiah)</label>
-                    <input type="number" name="amount" id="topupAmount" class="form-control auth-form-control bg-dark border-secondary text-white" min="10000" placeholder="Masukkan minimal Rp 10.000" required>
-                </div>
-                
-                <div class="mb-3">
-                    <label class="form-label text-secondary small fw-medium d-block mb-2">Pilihan Nominal Cepat</label>
-                    <div class="row g-2">
-                        <div class="col-6"><button type="button" class="btn btn-sm btn-outline-secondary w-100 py-2 quick-topup-btn fw-bold text-white" data-value="20000" style="font-size: 11px;">Rp 20k</button></div>
-                        <div class="col-6"><button type="button" class="btn btn-sm btn-outline-secondary w-100 py-2 quick-topup-btn fw-bold text-white" data-value="50000" style="font-size: 11px;">Rp 50k</button></div>
-                        <div class="col-6"><button type="button" class="btn btn-sm btn-outline-secondary w-100 py-2 quick-topup-btn fw-bold text-white" data-value="100000" style="font-size: 11px;">Rp 100k</button></div>
-                        <div class="col-6"><button type="button" class="btn btn-sm btn-outline-secondary w-100 py-2 quick-topup-btn fw-bold text-white" data-value="200000" style="font-size: 11px;">Rp 200k</button></div>
-                    </div>
-                </div>
-
-                <!-- Payment Parent Buttons -->
-                <div class="mb-3">
-                    <label class="form-label text-white small fw-medium mb-2">Metode Pembayaran</label>
-                    <div class="row g-2">
-                        <div class="col-4">
-                            <input type="radio" class="btn-check" name="payment_parent" id="parent_bank" value="BANK" checked>
-                            <label class="btn btn-outline-secondary w-100 py-2.5 text-center rounded-3 payment-parent-card text-white border-secondary" for="parent_bank" style="font-size: 10px;">
-                                <i class="bi bi-bank d-block mb-1 fs-6"></i>BANK
-                            </label>
-                        </div>
-                        <div class="col-4">
-                            <input type="radio" class="btn-check" name="payment_parent" id="parent_wallet" value="WALLET">
-                            <label class="btn btn-outline-secondary w-100 py-2.5 text-center rounded-3 payment-parent-card text-white border-secondary" for="parent_wallet" style="font-size: 10px;">
-                                <i class="bi bi-wallet2 d-block mb-1 fs-6"></i>WALLET
-                            </label>
-                        </div>
-                        <div class="col-4">
-                            <input type="radio" class="btn-check" name="payment_parent" id="parent_qris" value="QRIS">
-                            <label class="btn btn-outline-secondary w-100 py-2.5 text-center rounded-3 payment-parent-card text-white border-secondary" for="parent_qris" style="font-size: 10px;">
-                                <i class="bi bi-qr-code-scan d-block mb-1 fs-6"></i>QRIS
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sub-sections: Bank -->
-                <div id="section_bank" class="payment-sub-section mb-3">
-                    <div class="row g-2">
-                        <div class="col-6">
-                            <input type="radio" class="btn-check" name="payment_method" id="pay_bca" value="BCA" checked>
-                            <label class="btn btn-outline-secondary w-100 py-2 text-start d-flex align-items-center justify-content-between rounded-3 border-secondary text-white payment-card" for="pay_bca" style="font-size: 11px;">
-                                <span>BCA VA</span><i class="bi bi-bank text-accent fs-6"></i>
-                            </label>
-                        </div>
-                        <div class="col-6">
-                            <input type="radio" class="btn-check" name="payment_method" id="pay_bri" value="BRI">
-                            <label class="btn btn-outline-secondary w-100 py-2 text-start d-flex align-items-center justify-content-between rounded-3 border-secondary text-white payment-card" for="pay_bri" style="font-size: 11px;">
-                                <span>BRI VA</span><i class="bi bi-bank text-info fs-6"></i>
-                            </label>
-                        </div>
-                        <div class="col-6">
-                            <input type="radio" class="btn-check" name="payment_method" id="pay_bni" value="BNI">
-                            <label class="btn btn-outline-secondary w-100 py-2 text-start d-flex align-items-center justify-content-between rounded-3 border-secondary text-white payment-card" for="pay_bni" style="font-size: 11px;">
-                                <span>BNI VA</span><i class="bi bi-bank text-warning fs-6"></i>
-                            </label>
-                        </div>
-                        <div class="col-6">
-                            <input type="radio" class="btn-check" name="payment_method" id="pay_mandiri" value="MANDIRI">
-                            <label class="btn btn-outline-secondary w-100 py-2 text-start d-flex align-items-center justify-content-between rounded-3 border-secondary text-white payment-card" for="pay_mandiri" style="font-size: 11px;">
-                                <span>MANDIRI</span><i class="bi bi-bank2 text-danger fs-6"></i>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sub-sections: E-Wallet -->
-                <div id="section_wallet" class="payment-sub-section mb-3 d-none">
-                    <div class="row g-2">
-                        <div class="col-6">
-                            <input type="radio" class="btn-check" name="payment_method" id="pay_dana" value="DANA">
-                            <label class="btn btn-outline-secondary w-100 py-2 text-start d-flex align-items-center justify-content-between rounded-3 border-secondary text-white payment-card" for="pay_dana" style="font-size: 11px;">
-                                <span>DANA</span><i class="bi bi-wallet2 text-primary fs-6"></i>
-                            </label>
-                        </div>
-                        <div class="col-6">
-                            <input type="radio" class="btn-check" name="payment_method" id="pay_gopay" value="GOPAY">
-                            <label class="btn btn-outline-secondary w-100 py-2 text-start d-flex align-items-center justify-content-between rounded-3 border-secondary text-white payment-card" for="pay_gopay" style="font-size: 11px;">
-                                <span>GoPay</span><i class="bi bi-wallet2 text-success fs-6"></i>
-                            </label>
-                        </div>
-                        <div class="col-6">
-                            <input type="radio" class="btn-check" name="payment_method" id="pay_ovo" value="OVO">
-                            <label class="btn btn-outline-secondary w-100 py-2 text-start d-flex align-items-center justify-content-between rounded-3 border-secondary text-white payment-card" for="pay_ovo" style="font-size: 11px;">
-                                <span>OVO</span><i class="bi bi-wallet2 text-info fs-6"></i>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sub-sections: QRIS -->
-                <div id="section_qris" class="payment-sub-section mb-3 d-none">
-                    <input type="radio" class="btn-check" name="payment_method" id="pay_qris_val" value="QRIS">
-                    <div class="p-2.5 rounded border border-success border-opacity-50 small text-secondary" style="background-color: rgba(34, 197, 94, 0.03); border-style: dashed !important; font-size: 11px;">
-                        <span class="text-white fw-bold d-block mb-1"><i class="bi bi-qr-code-scan text-success me-1"></i>QRIS Instant</span>
-                        Mendukung DANA, GoPay, OVO, ShopeePay, dan Mobile Banking.
-                    </div>
-                </div>
-
-                <button type="submit" class="btn bg-accent w-100 py-2.5 fw-bold text-dark rounded-3 mt-2 hover-scale">Konfirmasi Top Up</button>
-            </form>
+            <h2 class="fw-bold text-white mb-3">Rp <?php echo number_format($user_balance, 0, ',', '.'); ?></h2>
+            <a href="index.php?page=topup" class="btn bg-accent fw-bold w-100 py-2.5 rounded-3 d-inline-flex align-items-center justify-content-center gap-2 hover-scale">
+                <i class="bi bi-wallet2 text-dark"></i> Top Up Saldo
+            </a>
         </div>
 
         <!-- SECTION: Riwayat Top Up -->
@@ -453,51 +345,6 @@ document.addEventListener("DOMContentLoaded", () => {
             modalGameIdInput.value = gameId;
             modalGameTitleSpan.textContent = gameTitle;
         });
-    }
-
-    // Top-up Preset Buttons
-    const amountInput = document.getElementById('topupAmount');
-    const quickBtns = document.querySelectorAll('.quick-topup-btn');
-    quickBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            amountInput.value = btn.getAttribute('data-value');
-        });
-    });
-
-    // Toggle Payment Channels
-    const parentBank = document.getElementById('parent_bank');
-    const parentWallet = document.getElementById('parent_wallet');
-    const parentQris = document.getElementById('parent_qris');
-
-    const sectionBank = document.getElementById('section_bank');
-    const sectionWallet = document.getElementById('section_wallet');
-    const sectionQris = document.getElementById('section_qris');
-
-    const qrisInput = document.getElementById('pay_qris_val');
-
-    function togglePaymentSections() {
-        if (parentBank.checked) {
-            sectionBank.classList.remove('d-none');
-            sectionWallet.classList.add('d-none');
-            sectionQris.classList.add('d-none');
-            document.getElementById('pay_bca').checked = true;
-        } else if (parentWallet.checked) {
-            sectionBank.classList.add('d-none');
-            sectionWallet.classList.remove('d-none');
-            sectionQris.classList.add('d-none');
-            document.getElementById('pay_dana').checked = true;
-        } else if (parentQris.checked) {
-            sectionBank.classList.add('d-none');
-            sectionWallet.classList.add('d-none');
-            sectionQris.classList.remove('d-none');
-            qrisInput.checked = true;
-        }
-    }
-
-    if (parentBank && parentWallet && parentQris) {
-        parentBank.addEventListener('change', togglePaymentSections);
-        parentWallet.addEventListener('change', togglePaymentSections);
-        parentQris.addEventListener('change', togglePaymentSections);
     }
 });
 </script>
