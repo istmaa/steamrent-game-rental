@@ -4,6 +4,12 @@ All notable changes to the SteamRent project are documented in this file.
 
 ---
 
+## [v1.4] - 2026-06-13
+### Added
+- **Fail-Safe Loading Screen**: Updated `assets/js/script.js` to disable the preloader immediately if document is ready or after a maximum 2000ms fallback timeout, resolving the infinite loader screen issue.
+- **Config Include Path Fix**: Changed relative config include to absolute-path based check (`include_once __DIR__ . '/config.php'`) in `includes/header.php`.
+- **Database Schema Verification**: Successfully drop old tables (including leftover tables `game_specs` and `rentals`) using disabled foreign key constraint validations and compiled all UAS stored procedures, triggers, views, and functions.
+
 ## [v1.2] - 2026-06-13
 ### Added
 - **Auto Carousel Banner** on the homepage featuring 4 famous games: Cyberpunk 2077, Elden Ring, Red Dead Redemption 2, and GTA V (automatic cycling with 5s intervals, manual indicator arrows, indicator dots, and responsive metadata display).

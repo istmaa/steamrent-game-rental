@@ -2,7 +2,7 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-include_once 'config.php';
+include_once __DIR__ . '/config.php';
 
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
 

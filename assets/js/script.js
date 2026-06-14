@@ -1,7 +1,7 @@
-document.addEventListener("DOMContentLoaded", () => {
-    // PRELOADER HIDER
+// PRELOADER HIDER WITH FAIL-SAFE TIMEOUT
+const hidePreloader = () => {
     const preloader = document.getElementById("preloader");
-    if (preloader) {
+    if (preloader && preloader.style.display !== "none") {
         setTimeout(() => {
             preloader.classList.add("fade-out");
             setTimeout(() => {
@@ -9,6 +9,19 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 400);
         }, 300);
     }
+};
+
+// Jalankan sesegera mungkin
+if (document.readyState === "complete" || document.readyState === "interactive") {
+    hidePreloader();
+} else {
+    document.addEventListener("DOMContentLoaded", hidePreloader);
+}
+
+// Timeout pengaman maksimal 2 detik
+setTimeout(hidePreloader, 2000);
+
+document.addEventListener("DOMContentLoaded", () => {
 
     // THEME TOGGLE SINKRONISASI
     const toggleBtn = document.getElementById("themeToggle");
