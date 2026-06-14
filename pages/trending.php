@@ -201,13 +201,21 @@ if ($trending_query) {
                 <!-- Game Info Column -->
                 <div class="trending-info">
                     <?php if (!empty($g['Image_URL'])): ?>
-                        <img src="<?php echo htmlspecialchars($g['Image_URL']); ?>" class="rounded shadow-sm flex-shrink-0" style="<?php echo $img_style; ?>" alt="">
+                        <img src="<?php echo htmlspecialchars($g['Image_URL']); ?>" class="trending-thumb rounded shadow-sm flex-shrink-0" style="<?php echo $img_style; ?>" alt="">
                     <?php endif; ?>
                     <div class="min-w-0">
                         <div class="<?php echo $title_class; ?>"><?php echo htmlspecialchars($g['Game_Name']); ?></div>
                         <span class="text-secondary d-block text-truncate" style="<?php echo $genre_style; ?>">
                             <i class="bi bi-tags-fill me-1 text-accent"></i><?php echo htmlspecialchars($g['Genre']); ?>
                         </span>
+                        <div class="trending-mobile-meta d-none">
+                            <span><i class="bi bi-controller me-1 text-accent"></i><?php echo $g['total_rentals']; ?> Sesi</span>
+                            <?php if ($g_rating > 0): ?>
+                                <span><i class="bi bi-star-fill me-1 text-warning"></i><?php echo number_format($g_rating, 1); ?></span>
+                            <?php else: ?>
+                                <span>Belum ada rating</span>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
 

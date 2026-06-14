@@ -232,10 +232,10 @@ $topup_history_query = mysqli_query($conn, "
                                 $status_badge = $s['Logout_Time'] ? '<span class="badge bg-secondary bg-opacity-25 text-secondary border border-secondary border-opacity-25">SELESAI</span>' : '<span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50">AKTIF</span>';
                                 ?>
                                 <tr>
-                                    <td class="text-white fw-semibold"><?php echo htmlspecialchars($s['Game_Name']); ?></td>
-                                    <td><?php echo date('d M Y H:i', strtotime($s['Login_Time'])); ?></td>
-                                    <td><?php echo $logout_time; ?></td>
-                                    <td><?php echo $status_badge; ?></td>
+                                    <td data-label="Game" class="text-white fw-semibold"><?php echo htmlspecialchars($s['Game_Name']); ?></td>
+                                    <td data-label="Login"><?php echo date('d M Y H:i', strtotime($s['Login_Time'])); ?></td>
+                                    <td data-label="Logout"><?php echo $logout_time; ?></td>
+                                    <td data-label="Status"><?php echo $status_badge; ?></td>
                                 </tr>
                                 <?php
                             }

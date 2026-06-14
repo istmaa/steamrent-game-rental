@@ -88,18 +88,23 @@ $filter_query_str = http_build_query($get_params);
 
 <div class="mb-5 animate-fade-in">
     <!-- Search Bar Component -->
-    <form action="index.php" method="GET" class="d-flex gap-2">
+    <form action="index.php" method="GET" class="games-filter-form d-flex gap-2">
         <input type="hidden" name="page" value="games">
         <?php if (!empty($selected_genre)): ?>
             <input type="hidden" name="g" value="<?php echo htmlspecialchars($selected_genre); ?>">
         <?php endif; ?>
-        <div class="input-group shadow-sm position-relative">
-            <span class="input-group-text bg-dark border-secondary text-secondary"><i class="bi bi-search"></i></span>
-            
-            <div class="position-relative flex-grow-1">
+        <div class="catalog-search-controls shadow-sm position-relative">
+            <div class="catalog-search-field position-relative d-flex flex-grow-1">
+                <span class="input-group-text bg-dark border-secondary text-secondary"><i class="bi bi-search"></i></span>
+                
+                <div class="position-relative flex-grow-1">
                 <input type="text" name="search" id="gameSearchInput" class="form-control bg-dark border-secondary text-white w-100 pe-5" placeholder="Cari judul game atau genre favorit Anda..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>" autocomplete="off" style="border-radius: 0;">
                 <!-- Clear Button 'X' -->
                 <button type="button" id="btnClearSearch" class="btn border-0 position-absolute end-0 top-50 translate-middle-y text-secondary <?php echo (isset($_GET['search']) && !empty($_GET['search'])) ? '' : 'd-none'; ?>" style="z-index: 5; background: transparent; right: 10px !important;"><i class="bi bi-x-lg"></i></button>
+                </div>
+
+                <!-- Autocomplete Suggestion Dropdown Overlay -->
+                <div id="searchSuggestions" class="suggestions-dropdown d-none position-absolute w-100 bg-dark border border-secondary rounded-bottom shadow-lg overflow-auto" style="top: 100%; left: 0; z-index: 1000; max-height: 250px;"></div>
             </div>
             
             <select name="price_range" class="form-select bg-dark border-secondary text-white" style="max-width: 200px;" onchange="this.form.submit()">
@@ -111,9 +116,6 @@ $filter_query_str = http_build_query($get_params);
             </select>
             
             <button class="btn bg-accent fw-bold px-4" type="submit">Cari</button>
-
-            <!-- Autocomplete Suggestion Dropdown Overlay -->
-            <div id="searchSuggestions" class="suggestions-dropdown d-none position-absolute w-100 bg-dark border border-secondary rounded-bottom shadow-lg overflow-auto" style="top: 100%; left: 0; z-index: 1000; max-height: 250px;"></div>
         </div>
     </form>
 </div>
