@@ -1,0 +1,8 @@
+*.sql
+
+rendered_home.html
+report.md
+
+.vscode/
+.DS_Store
+Thumbs.db

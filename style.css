@@ -1,0 +1,902 @@
+/* Landasan Utama & Animasi Transisi */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle at 50% 50%, #151a2d 0%, #0b0f15 100%);
+    background-attachment: fixed;
+    color: #ffffff;
+    transition: background 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
+}
+
+/* Identitas Pewarnaan Aksen */
+.text-accent { color: #38bdf8 !important; }
+.bg-accent { background-color: #38bdf8 !important; color: #0b0f14 !important; transition: all 0.2s ease; }
+.bg-accent:hover { background-color: #0ea5e9 !important; color: #0b0f14 !important; }
+
+/* Panel Navigasi Samping */
+.sidebar {
+    background: linear-gradient(180deg, #171a21 0%, #1b2838 100%);
+    border-right: 1px solid #2a475e;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+@media (min-width: 768px) {
+    .sidebar { width: 260px; height: 100vh; position: sticky; top: 0; }
+}
+@media (max-width: 767px) {
+    .sidebar { border-right: none; border-bottom: 1px solid #2a475e; }
+}
+
+.nav-item-custom { 
+    transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1); 
+    border-left: 3px solid transparent;
+    padding-left: 1.25rem !important;
+}
+.nav-item-custom:hover {
+    background-color: rgba(102, 192, 244, 0.08) !important;
+    color: #66c0f4 !important;
+    border-left: 3px solid #66c0f4;
+    transform: translateX(4px);
+}
+.nav-item-custom.active {
+    background: linear-gradient(90deg, rgba(56, 189, 248, 0.15) 0%, rgba(56, 189, 248, 0.02) 100%) !important;
+    color: #38bdf8 !important;
+    border-left: 3px solid #38bdf8 !important;
+    box-shadow: inset 4px 0 10px rgba(56, 189, 248, 0.1), 0 0 15px rgba(56, 189, 248, 0.05);
+}
+
+.user-box {
+    background-color: #1b2838;
+    border: 1px solid #2a475e;
+    transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.user-box:hover { 
+    background-color: #2a475e; 
+    border-color: #66c0f4; 
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(102, 192, 244, 0.25);
+}
+
+/* Spanduk Unggulan */
+.hero-banner {
+    background: linear-gradient(to right, rgba(11, 15, 20, 0.95) 20%, rgba(11, 15, 20, 0.2)), 
+                url('https://i.pinimg.com/736x/71/09/6a/71096ac2d345be5f5835aa02bb19d020.jpg');
+    background-size: cover;
+    background-position: center 20%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border: 1px solid #1f2937;
+    transition: all 0.3s ease;
+}
+
+/* Modul Tampilan Kartu Katalog */
+.game-card {
+    background-color: #121821;
+    border-radius: 12px;
+    border: 1px solid #1f2937;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.45);
+}
+.game-card:hover {
+    background-color: #1f2937;
+    transform: translateY(-6px);
+    border-color: #38bdf8;
+    box-shadow: 0 10px 25px rgba(56, 189, 248, 0.2);
+}
+.card-img-wrapper {
+    height: 220px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 10px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+.card-img-custom {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.game-card:hover .card-img-custom {
+    transform: scale(1.05);
+}
+.card-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+}
+.empty-image {
+    height: 220px;
+    background-color: #1a222d; 
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #4b5563;
+    border: 2px dashed #2a374a; 
+    transition: all 0.3s ease;
+}
+.game-card:hover .empty-image {
+    border-color: #38bdf8;
+    color: #38bdf8;
+}
+
+/* Sektor Tata Letak Autentikasi (Split Screen) */
+.auth-wrapper {
+    min-height: 100vh;
+    display: flex;
+}
+.auth-banner-side {
+    flex: 1;
+    background: linear-gradient(135deg, rgba(11, 15, 20, 0.95), rgba(18, 24, 33, 0.85)), 
+                url('https://i.pinimg.com/736x/71/09/6a/71096ac2d345be5f5835aa02bb19d020.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem;
+}
+.auth-form-side {
+    width: 100%;
+    max-width: 490px;
+    background: rgba(23, 26, 33, 0.75) !important;
+    backdrop-filter: blur(25px) !important;
+    -webkit-backdrop-filter: blur(25px) !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 3.5rem;
+    border-left: 1px solid rgba(42, 71, 94, 0.4) !important;
+    position: relative;
+    transition: background-color 0.3s ease;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5) !important;
+}
+.auth-input-group {
+    margin-bottom: 1.4rem;
+}
+.auth-form-control {
+    background-color: rgba(23, 26, 33, 0.6) !important;
+    border: 1px solid #2a475e !important;
+    color: #ffffff;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.auth-form-control:focus {
+    background-color: rgba(42, 71, 94, 0.25) !important;
+    border-color: #38bdf8 !important;
+    box-shadow: 0 0 0 0.25rem rgba(56, 189, 248, 0.2) !important;
+    color: #ffffff;
+    outline: none;
+}
+.auth-theme-toggle {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+}
+
+@media (max-width: 767px) {
+    .auth-wrapper { flex-direction: column; }
+    .auth-banner-side { display: none; }
+    .auth-form-side { max-width: 100%; min-height: 100vh; border-left: none; padding: 3rem 2rem; }
+}
+
+/* Modifikasi Aturan Bright Mode Dinamis (Aset Kontras Tinggi) */
+body.light-mode {
+    background: radial-gradient(circle at 50% 50%, #ffffff 0%, #f5f7fa 100%);
+    color: #0f172a;
+}
+body.light-mode .text-white {
+    color: #0f172a !important;
+}
+body.light-mode .text-light {
+    color: #1e293b !important;
+}
+body.light-mode .text-secondary {
+    color: #475569 !important;
+}
+body.light-mode .sidebar {
+    background-color: #ffffff;
+    border-right: 1px solid #dbe3ea;
+}
+body.light-mode .sidebar .text-white {
+    color: #0f172a !important;
+}
+body.light-mode .nav-item-custom:hover {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+body.light-mode .nav-item-custom.active {
+    background-color: #e0f2fe !important;
+    color: #0369a1 !important;
+    border-left-color: #38bdf8 !important;
+}
+body.light-mode .user-box {
+    background-color: #ffffff;
+    border: 1px solid #dbe3ea;
+}
+body.light-mode .user-box:hover {
+    background-color: #f8fafc;
+    border-color: #38bdf8;
+}
+body.light-mode .hero-banner {
+    background: linear-gradient(to right, rgba(245, 247, 250, 0.98) 35%, rgba(245, 247, 250, 0.4)), 
+                url('https://i.pinimg.com/736x/71/09/6a/71096ac2d345be5f5835aa02bb19d020.jpg');
+    border-color: #dbe3ea;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.02);
+}
+body.light-mode .game-card {
+    background-color: #ffffff;
+    border-color: #dbe3ea;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+}
+body.light-mode .game-card:hover {
+    background-color: #ffffff;
+    border-color: #38bdf8;
+    box-shadow: 0 10px 20px -5px rgba(0,0,0,0.06);
+}
+body.light-mode .empty-image {
+    background-color: #f1f5f9;
+    border-color: #cbd5e1;
+    color: #475569;
+}
+
+/* Modifikasi Autentikasi Saat Bright Mode */
+body.light-mode .auth-banner-side {
+    background: linear-gradient(135deg, rgba(245, 247, 250, 0.98), rgba(226, 232, 240, 0.9)), 
+                url('https://i.pinimg.com/736x/71/09/6a/71096ac2d345be5f5835aa02bb19d020.jpg');
+}
+body.light-mode .auth-form-side {
+    background-color: #ffffff;
+    border-left-color: #dbe3ea;
+}
+body.light-mode .auth-form-control {
+    background-color: #ffffff;
+    border-color: #dbe3ea;
+    color: #0f172a;
+}
+body.light-mode .auth-form-control:focus {
+    background-color: #ffffff;
+    border-color: #38bdf8;
+    color: #0f172a;
+}
+
+/* ==========================================
+   FINAL POLISHING PARADIGMS & CONTRAST FIXES
+   ========================================== */
+
+/* Focus Outlines */
+.form-control:focus, .form-select:focus, .auth-form-control:focus {
+    border-color: #38bdf8 !important;
+    box-shadow: 0 0 0 0.25rem rgba(56, 189, 248, 0.25) !important;
+}
+
+/* Scrollbar Modernization */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #0b0f15;
+}
+body.light-mode ::-webkit-scrollbar-track {
+    background: #f5f7fa;
+}
+::-webkit-scrollbar-thumb {
+    background: #1f2937;
+    border-radius: 4px;
+}
+body.light-mode ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #38bdf8;
+}
+
+/* Trending Leaderboard Rank 4-10 Rows */
+.trending-row {
+    background-color: #121821;
+    border: 1px solid #1f2937;
+    transition: all 0.3s ease;
+}
+.trending-row:hover {
+    background-color: #1f2937;
+    border-color: #38bdf8 !important;
+}
+body.light-mode .trending-row {
+    background-color: #ffffff !important;
+    border-color: #dbe3ea !important;
+}
+body.light-mode .trending-row:hover {
+    background-color: #f8fafc !important;
+    border-color: #38bdf8 !important;
+}
+
+/* Wallet Banner Contrast Fix */
+.wallet-banner {
+    background: linear-gradient(135deg, #121821 0%, #1a222d 100%) !important;
+    border: 1px solid #38bdf8 !important;
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.1);
+}
+body.light-mode .wallet-banner {
+    background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%) !important;
+    border-color: #38bdf8 !important;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+}
+
+/* Active and Completed Rentals */
+.active-rental-item, .completed-rental-item {
+    background-color: #121821;
+    border: 1px solid #1f2937;
+}
+body.light-mode .active-rental-item, body.light-mode .completed-rental-item {
+    background-color: #ffffff !important;
+    border-color: #dbe3ea !important;
+}
+
+/* Pending Warning Box Contrast Fix */
+.pending-box {
+    background-color: rgba(234, 179, 8, 0.05);
+    border-color: #eab308 !important;
+}
+body.light-mode .pending-box {
+    background-color: rgba(234, 179, 8, 0.08) !important;
+    border-color: #d97706 !important;
+}
+body.light-mode .pending-box .text-warning {
+    color: #b45309 !important;
+}
+
+/* Top Up Payment Card Elements */
+.payment-parent-card {
+    background-color: #1a222d;
+    border-color: #2a374a !important;
+    transition: all 0.2s ease;
+}
+.payment-parent-card:hover {
+    border-color: #38bdf8 !important;
+    background-color: #1f2937;
+}
+.btn-check:checked + .payment-parent-card {
+    border-color: #38bdf8 !important;
+    background-color: #38bdf8 !important;
+    color: #0b0f14 !important;
+}
+body.light-mode .payment-parent-card {
+    background-color: #ffffff;
+    border-color: #dbe3ea !important;
+}
+body.light-mode .payment-parent-card:hover {
+    background-color: #f8fafc;
+    border-color: #38bdf8 !important;
+}
+body.light-mode .btn-check:checked + .payment-parent-card {
+    border-color: #38bdf8 !important;
+    background-color: #38bdf8 !important;
+    color: #0b0f14 !important;
+}
+
+.payment-card {
+    background-color: #1a222d;
+    border-color: #2a374a !important;
+    transition: all 0.2s ease;
+}
+.payment-card:hover {
+    border-color: #38bdf8 !important;
+    background-color: #1f2937;
+}
+.btn-check:checked + .payment-card {
+    border-color: #38bdf8 !important;
+    background-color: rgba(56, 189, 248, 0.1) !important;
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+}
+body.light-mode .payment-card {
+    background-color: #ffffff;
+    border-color: #dbe3ea !important;
+}
+body.light-mode .payment-card:hover {
+    background-color: #f8fafc;
+    border-color: #38bdf8 !important;
+}
+body.light-mode .btn-check:checked + .payment-card {
+    background-color: rgba(56, 189, 248, 0.08) !important;
+    border-color: #38bdf8 !important;
+}
+
+/* Category Outline Buttons Contrast Fix */
+body.light-mode .btn-outline-light {
+    border-color: #cbd5e1 !important;
+    color: #475569 !important;
+}
+body.light-mode .btn-outline-light:hover, body.light-mode .btn-outline-light.active {
+    background-color: #38bdf8 !important;
+    border-color: #38bdf8 !important;
+    color: #0b0f14 !important;
+}
+
+/* Coming Soon Placeholder Cards styling */
+.coming-soon-card {
+    opacity: 0.75;
+    border: 1px dashed rgba(56, 189, 248, 0.45) !important;
+    background-color: rgba(18, 24, 33, 0.6) !important;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+.coming-soon-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    box-shadow: inset 0 0 20px rgba(56, 189, 248, 0.05);
+}
+.coming-soon-card:hover {
+    opacity: 0.95;
+    border-color: #38bdf8 !important;
+    box-shadow: 0 8px 25px rgba(56, 189, 248, 0.12) !important;
+    transform: translateY(-4px);
+}
+@keyframes pulseGlow {
+    0% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.08); opacity: 0.95; filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.6)); }
+    100% { transform: scale(1); opacity: 0.6; }
+}
+.coming-soon-icon {
+    font-size: 2.4rem;
+    color: #38bdf8 !important;
+    animation: pulseGlow 2.5s infinite ease-in-out;
+}
+body.light-mode .coming-soon-card {
+    background-color: rgba(255, 255, 255, 0.8) !important;
+    border: 1px dashed rgba(56, 189, 248, 0.5) !important;
+}
+body.light-mode .coming-soon-card:hover {
+    background-color: #ffffff !important;
+    box-shadow: 0 8px 25px rgba(56, 189, 248, 0.15) !important;
+}
+
+/* ==========================================
+   ENHANCED STYLING, PRELOADER, GLASSMORPHISM & ANIMATIONS
+   ========================================== */
+
+#particles-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0b0f15;
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+#preloader.fade-out {
+    opacity: 0;
+    visibility: hidden;
+}
+.loader-spinner-wrapper {
+    text-align: center;
+}
+.loader-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(56, 189, 248, 0.1);
+    border-left-color: #38bdf8;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 15px;
+}
+.loader-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #38bdf8;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+@keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+/* Glassmorphism utility class */
+.glass-panel {
+    background: rgba(18, 24, 33, 0.65) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
+}
+body.light-mode .glass-panel {
+    background: rgba(255, 255, 255, 0.7) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    box-shadow: 0 8px 32px 0 rgba(15, 23, 42, 0.04) !important;
+}
+
+/* Side navigation, user-boxes and cards dynamic overrides */
+.sidebar.glass-panel {
+    background: rgba(18, 24, 33, 0.75) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+}
+body.light-mode .sidebar.glass-panel {
+    background: rgba(255, 255, 255, 0.8) !important;
+}
+
+.modal-content.glass-panel {
+    background: rgba(18, 24, 33, 0.85) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+}
+body.light-mode .modal-content.glass-panel {
+    background: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Star rating dynamic selection inside modal */
+.star-rating-select {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 8px;
+}
+.star-rating-select input {
+    display: none;
+}
+.star-rating-select label {
+    font-size: 2rem;
+    color: #4b5563;
+    cursor: pointer;
+    transition: color 0.25s ease, transform 0.2s ease;
+}
+.star-rating-select label:hover,
+.star-rating-select label:hover ~ label,
+.star-rating-select input:checked ~ label {
+    color: #eab308 !important;
+    transform: scale(1.1);
+}
+.star-rating-select label:active {
+    transform: scale(0.9);
+}
+body.light-mode .star-rating-select label {
+    color: #cbd5e1;
+}
+
+/* Scrolling reviews lists and layouts */
+.reviews-scroll-container {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+.review-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1.25rem 0;
+    transition: all 0.2s ease;
+}
+.review-item:last-child {
+    border-bottom: none;
+}
+body.light-mode .review-item {
+    border-bottom-color: rgba(15, 23, 42, 0.08);
+}
+.star-filled {
+    color: #eab308;
+}
+.star-empty {
+    color: #4b5563;
+}
+body.light-mode .star-empty {
+    color: #cbd5e1;
+}
+
+/* Scrollbar styling for scrolling container */
+.reviews-scroll-container::-webkit-scrollbar {
+    width: 6px;
+}
+.reviews-scroll-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+}
+.reviews-scroll-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+/* Fade In section and page animations */
+.animate-fade-in {
+    animation: fadeIn 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    opacity: 0;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Pan background hero animation */
+@keyframes heroBgPan {
+    0% { background-position: center 20%; }
+    50% { background-position: center 25%; }
+    100% { background-position: center 20%; }
+}
+.hero-banner {
+    animation: heroBgPan 20s ease-in-out infinite;
+}
+
+/* Toast customization styles */
+.toast-container {
+    z-index: 1055 !important;
+}
+.toast.glass-panel {
+    background: rgba(18, 24, 33, 0.9) !important;
+}
+body.light-mode .toast.glass-panel {
+    background: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Button and Card hover interactions */
+.hover-scale {
+    transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.2s ease, background-color 0.2s ease !important;
+}
+.hover-scale:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 5px 15px rgba(56, 189, 248, 0.3) !important;
+}
+.hover-scale:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* Password checklist custom adaptive styling */
+.password-checklist {
+    background-color: rgba(26, 34, 45, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 12px;
+    transition: all 0.3s ease;
+}
+body.light-mode .password-checklist {
+    background-color: rgba(241, 245, 249, 0.95) !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    color: #475569 !important;
+}
+body.light-mode .password-checklist .text-white {
+    color: #0f172a !important;
+}
+
+/* Progress bar backgrounds in light mode */
+body.light-mode .progress {
+    background-color: rgba(15, 23, 42, 0.1) !important;
+}
+
+/* Scrollbar styling for scrolling container in light mode */
+body.light-mode .reviews-scroll-container::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.02) !important;
+}
+body.light-mode .reviews-scroll-container::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Interactive Tabs Styling override */
+#specTabs .nav-link {
+    color: #6b7280; /* text-secondary */
+    transition: all 0.25s ease;
+    border-bottom: 2px solid transparent !important;
+}
+#specTabs .nav-link.active {
+    color: #38bdf8 !important;
+    border-bottom: 2px solid #38bdf8 !important;
+}
+body.light-mode #specTabs .nav-link {
+    color: #64748b !important;
+}
+body.light-mode #specTabs .nav-link.active {
+    color: #0ea5e9 !important;
+    border-bottom: 2px solid #0ea5e9 !important;
+}
+
+/* Benefit Cards & Popular Genre Pills on Homepage */
+.benefit-card {
+    background-color: rgba(23, 26, 33, 0.45) !important;
+    border: 1px solid #2a475e !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+.benefit-card:hover {
+    background-color: rgba(42, 71, 94, 0.25) !important;
+    border-color: #38bdf8 !important;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(56, 189, 248, 0.15);
+}
+body.light-mode .benefit-card {
+    background-color: #ffffff !important;
+    border-color: #dbe3ea !important;
+}
+body.light-mode .benefit-card:hover {
+    background-color: #f0f9ff !important;
+    border-color: #38bdf8 !important;
+}
+
+.genre-pill-card {
+    background-color: rgba(23, 26, 33, 0.6) !important;
+    border: 1px solid #2a475e !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+.genre-pill-card:hover {
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, rgba(56, 189, 248, 0.02) 100%) !important;
+    border-color: #38bdf8 !important;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(56, 189, 248, 0.15);
+}
+body.light-mode .genre-pill-card {
+    background-color: #ffffff !important;
+    border-color: #dbe3ea !important;
+}
+body.light-mode .genre-pill-card:hover {
+    background: #e0f2fe !important;
+    border-color: #38bdf8 !important;
+}
+
+/* Premium Badges for Game Cards */
+.badge-premium-hot {
+    background: linear-gradient(135deg, #ef4444 0%, #f97316 100%) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+.badge-premium-trending {
+    background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%) !important;
+    color: #0b0f14 !important;
+    border: 1px solid rgba(234, 179, 8, 0.4);
+    box-shadow: 0 0 10px rgba(234, 179, 8, 0.3);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+.badge-premium-new {
+    background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+.badge-premium-default {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(59, 130, 246, 0.4);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Review Card Enhancements */
+.review-card-custom {
+    background: rgba(27, 40, 56, 0.4) !important;
+    border: 1px solid rgba(42, 71, 94, 0.4) !important;
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.review-card-custom:hover {
+    background: rgba(42, 71, 94, 0.2) !important;
+    border-color: #38bdf8 !important;
+    box-shadow: 0 4px 15px rgba(56, 189, 248, 0.1);
+}
+body.light-mode .review-card-custom {
+    background: #ffffff !important;
+    border-color: #dbe3ea !important;
+}
+body.light-mode .review-card-custom:hover {
+    border-color: #38bdf8 !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+.reviewer-avatar-wrapper {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #2a475e;
+    background-color: #171a21;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+body.light-mode .reviewer-avatar-wrapper {
+    border-color: #cbd5e1;
+    background-color: #f1f5f9;
+}
+
+/* Rental Page controls */
+.duration-control-custom button {
+    border-color: #2a475e !important;
+    background-color: #1b2838 !important;
+    transition: all 0.2s ease;
+}
+.duration-control-custom button:hover {
+    background-color: #2a475e !important;
+    border-color: #38bdf8 !important;
+    color: #38bdf8 !important;
+}
+body.light-mode .duration-control-custom button {
+    border-color: #cbd5e1 !important;
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+body.light-mode .duration-control-custom button:hover {
+    background-color: #e2e8f0 !important;
+    border-color: #0ea5e9 !important;
+    color: #0ea5e9 !important;
+}
+
+/* Collections Page Styling */
+.active-rental-card {
+    border: 1px solid #38bdf8 !important;
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.15) !important;
+    background: linear-gradient(135deg, rgba(23, 40, 56, 0.5) 0%, rgba(27, 40, 56, 0.3) 100%) !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.active-rental-card:hover {
+    box-shadow: 0 0 25px rgba(56, 189, 248, 0.25) !important;
+    border-color: #0ea5e9 !important;
+}
+body.light-mode .active-rental-card {
+    border-color: #38bdf8 !important;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+}
+.pulse-live-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: #22c55e;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #22c55e;
+    animation: pulseDot 1.8s infinite ease-in-out;
+}
+@keyframes pulseDot {
+    0% { transform: scale(0.9); opacity: 0.6; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+    70% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+    100% { transform: scale(0.9); opacity: 0.6; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
+.progress-bar-custom {
+    background: linear-gradient(90deg, #38bdf8 0%, #0ea5e9 100%);
+    box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+    border-radius: 4px;
+    height: 100%;
+    transition: width 0.4s ease;
+}
+.btn-ulas-game {
+    background: rgba(234, 179, 8, 0.15) !important;
+    color: #eab308 !important;
+    border: 1px solid rgba(234, 179, 8, 0.3) !important;
+    transition: all 0.25s ease;
+}
+.btn-ulas-game:hover {
+    background: #eab308 !important;
+    color: #0b0f14 !important;
+    border-color: #eab308 !important;
+    box-shadow: 0 0 12px rgba(234, 179, 8, 0.4);
+}
