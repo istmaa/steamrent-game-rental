@@ -2,6 +2,13 @@
 
 All notable changes to the SteamRent project are documented in this file.
 
+## [v2.0] - 2026-06-13
+### Changed
+- **Migrated Game Images to Local Assets**: Relocated all game posters from remote Pinterest URLs to local storage under `assets/images/games/`, reducing page load latency and removing dependency on external network requests.
+- **Rebalanced Rental Prices**: Rebalanced the hourly pricing structure across all 50 games to a realistic rental range of Rp 1.000 - Rp 5.000, aligning with real service expectations.
+- **Updated Catalog Price Filters**: Modified price filters on `pages/games.php` to match the new pricing tiers (Rp 1.000 - Rp 2.000, Rp 2.001 - Rp 3.000, Rp 3.001 - Rp 4.000, Rp 4.001 - Rp 5.000).
+- **Reviewed Game Badges**: Trimmed and reviewed game badges (`HOT`, `TRENDING`, `NEW`) to highlight only appropriate, high-interest titles instead of assigning badges to all entries.
+
 ## [v1.9] - 2026-06-13
 ### Removed
 - **Testing Users**: Removed all development/testing accounts (`Anonimus`, `anonimus2`, `anonimuss`) from the `users` table, resetting the auto-increment starting index back to 1.
@@ -137,3 +144,9 @@ The following is a comprehensive summary of key milestones across previous Steam
 - Empty table records for rental, payment, sessionlog, reviews, and topups.
 - Preserved default 50-game catalog entries with proper descriptions and images.
 - Validated views, functions, stored procedures, and triggers.
+
+### v2.0 - Game Asset & Pricing Update
+- Migrated game posters from remote Pinterest URLs to local storage.
+- Rebalanced the hourly pricing structure across all 50 games to Rp 1.000 - Rp 5.000.
+- Updated price filters in `games.php` to match the new ranges.
+- Reviewed and trimmed game badges to avoid visual noise.

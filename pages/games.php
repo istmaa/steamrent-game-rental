@@ -51,12 +51,14 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
 // Price filter
 $price_clause = "";
 $price_range = isset($_GET['price_range']) ? $_GET['price_range'] : '';
-if ($price_range == 'under_10k') {
-    $price_clause = " AND Hourly_Price < 10000";
-} elseif ($price_range == '10k_15k') {
-    $price_clause = " AND Hourly_Price BETWEEN 10000 AND 15000";
-} elseif ($price_range == 'over_15k') {
-    $price_clause = " AND Hourly_Price > 15000";
+if ($price_range == '1k_2k') {
+    $price_clause = " AND Hourly_Price BETWEEN 1000 AND 2000";
+} elseif ($price_range == '2k_3k') {
+    $price_clause = " AND Hourly_Price BETWEEN 2001 AND 3000";
+} elseif ($price_range == '3k_4k') {
+    $price_clause = " AND Hourly_Price BETWEEN 3001 AND 4000";
+} elseif ($price_range == '4k_5k') {
+    $price_clause = " AND Hourly_Price BETWEEN 4001 AND 5000";
 }
 
 // Genre filter
@@ -102,9 +104,10 @@ $filter_query_str = http_build_query($get_params);
             
             <select name="price_range" class="form-select bg-dark border-secondary text-white" style="max-width: 200px;" onchange="this.form.submit()">
                 <option value="" <?php echo ($price_range == '') ? 'selected' : ''; ?>>Semua Kisaran Tarif</option>
-                <option value="under_10k" <?php echo ($price_range == 'under_10k') ? 'selected' : ''; ?>>Di bawah Rp 10.000</option>
-                <option value="10k_15k" <?php echo ($price_range == '10k_15k') ? 'selected' : ''; ?>>Rp 10.000 - Rp 15.000</option>
-                <option value="over_15k" <?php echo ($price_range == 'over_15k') ? 'selected' : ''; ?>>Di atas Rp 15.000</option>
+                <option value="1k_2k" <?php echo ($price_range == '1k_2k') ? 'selected' : ''; ?>>Rp 1.000 - Rp 2.000</option>
+                <option value="2k_3k" <?php echo ($price_range == '2k_3k') ? 'selected' : ''; ?>>Rp 2.001 - Rp 3.000</option>
+                <option value="3k_4k" <?php echo ($price_range == '3k_4k') ? 'selected' : ''; ?>>Rp 3.001 - Rp 4.000</option>
+                <option value="4k_5k" <?php echo ($price_range == '4k_5k') ? 'selected' : ''; ?>>Rp 4.001 - Rp 5.000</option>
             </select>
             
             <button class="btn bg-accent fw-bold px-4" type="submit">Cari</button>
