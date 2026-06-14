@@ -1,10 +1,10 @@
 <?php
-// koneksi database steamrent
+// Sesuaikan dengan konfigurasi database masing-masing server
 $conn = mysqli_connect(
     "localhost",
-    "u169077025_db_steamrent",
-    "Steamrent2026",
-    "u169077025_db_steamrent"
+    "YOUR_DB_USERNAME",
+    "YOUR_DB_PASSWORD",
+    "YOUR_DB_NAME"
 );
 
 if (!$conn) {
