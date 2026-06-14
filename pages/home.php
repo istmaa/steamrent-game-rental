@@ -23,8 +23,29 @@ if ($carousel_query) {
     }
 }
 
-// Fetch games for the grid layout below
-$games_query = mysqli_query($conn, "
+// Fetch 4 top trending games based on rental count for "Terpopuler Saat Ini"
+$trending_home_query = mysqli_query($conn, "
+    SELECT g.GameID, g.Game_Name, g.Genre, g.Image_URL, g.Hourly_Price,
+           COALESCE(rentals.total_rentals, 0) AS total_rentals,
+           COALESCE(rev.avg_rating, 0) AS avg_rating,
+           COALESCE(rev.review_count, 0) AS review_count
+    FROM game g
+    LEFT JOIN (
+        SELECT GameID, COUNT(RentalID) AS total_rentals
+        FROM rental
+        GROUP BY GameID
+    ) rentals ON g.GameID = rentals.GameID
+    LEFT JOIN (
+        SELECT GameID, AVG(Rating) AS avg_rating, COUNT(ReviewID) AS review_count
+        FROM reviews
+        GROUP BY GameID
+    ) rev ON g.GameID = rev.GameID
+    ORDER BY total_rentals DESC, g.Game_Name ASC
+    LIMIT 4
+");
+
+// Fetch 8 newest games for "Rilis Terbaru"
+$newest_home_query = mysqli_query($conn, "
     SELECT g.*, r.avg_rating, r.review_count 
     FROM game g 
     LEFT JOIN (
@@ -33,7 +54,7 @@ $games_query = mysqli_query($conn, "
         GROUP BY GameID
     ) r ON g.GameID = r.GameID 
     ORDER BY g.GameID DESC 
-    LIMIT 12
+    LIMIT 8
 ");
 ?>
 
@@ -72,57 +93,113 @@ $games_query = mysqli_query($conn, "
         </div>
 
         <!-- Manual Arrows -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev" style="z-index: 10;">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next" style="z-index: 10;">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
     </div>
 <?php endif; ?>
 
-<!-- Game Section Title -->
-<div class="d-flex justify-content-between align-items-end mb-4 animate-fade-in">
+<!-- Section 1: Terpopuler Saat Ini -->
+<div class="d-flex justify-content-between align-items-end mb-4 animate-fade-in text-white">
     <h4 class="fw-bold m-0">
-        <i class="bi bi-fire text-accent me-2"></i> Game Populer Tersedia
+        <i class="bi bi-graph-up-arrow text-accent me-2"></i> Terpopuler Saat Ini
     </h4>
-    <a href="index.php?page=games" class="text-accent text-decoration-none small fw-semibold">
-        Lihat Semua Katalog <i class="bi bi-arrow-right"></i>
+    <a href="index.php?page=trending" class="btn btn-sm btn-outline-accent fw-bold px-3 py-1.5 rounded-2 text-decoration-none">
+        Lihat Semua <i class="bi bi-arrow-right ms-1"></i>
     </a>
 </div>
 
-<!-- Game Cards Grid Layout -->
-<!-- Responsive settings: desktop (lg) 4 columns, tablet (md) 2 columns, mobile 1 column -->
 <div class="row g-4 mb-5">
     <?php
-    if ($games_query && mysqli_num_rows($games_query) > 0) {
-        while ($game = mysqli_fetch_assoc($games_query)) {
-            // Include game card logic inside the grid columns.
-            // Note: Each card will be wrapped inside includes/card_game.php
-            // We need to make sure the column size is defined within card_game or outside.
-            // In card_game.php, it has: <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
-            // Wait! The user request specifies:
-            // "Grid layout: desktop: 4 columns, tablet: 2 columns, mobile: 1 column"
-            // Let's make sure the card wrapper matches exactly!
-            // In Bootstrap:
-            // - mobile: col-12 (1 column)
-            // - tablet: col-md-6 (2 columns)
-            // - desktop: col-lg-3 (4 columns)
-            // Let's override the column wrapping in home.php and games.php by rendering the card layout directly,
-            // or let's use the includes/card_game.php file which has col-12 col-sm-6 col-lg-4 col-xl-3.
-            // Wait, col-xl-3 is 4 columns on desktop, col-lg-4 is 3 columns on desktop, col-sm-6 is 2 columns on tablet, col-12 is 1 column on mobile.
-            // Let's modify includes/card_game.php so it uses:
-            // - col-xl-3 (desktop: 4 columns)
-            // - col-lg-3 (desktop/laptop: 4 columns)
-            // - col-md-6 (tablet: 2 columns)
-            // - col-12 (mobile: 1 column)
-            // This matches the lecturer's grid requirement perfectly! Let's update includes/card_game.php.
+    if ($trending_home_query && mysqli_num_rows($trending_home_query) > 0) {
+        while ($game = mysqli_fetch_assoc($trending_home_query)) {
+            ?>
+            <div class="col-12 col-md-6 col-lg-3 animate-fade-in">
+                <div class="game-card p-2 h-100 d-flex flex-column glass-panel">
+                    <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-50 card-badge rounded-1 shadow-sm px-2 py-1">
+                        <i class="bi bi-fire me-1"></i> <?php echo $game['total_rentals']; ?> Disewa
+                    </span>
+                    
+                    <?php if (!empty($game['Image_URL'])): ?>
+                        <div class="card-img-wrapper rounded-3 mb-3 overflow-hidden">
+                            <img src="<?php echo htmlspecialchars($game['Image_URL']); ?>" class="card-img-custom w-100 h-100" alt="<?php echo htmlspecialchars($game['Game_Name']); ?>" loading="lazy">
+                        </div>
+                    <?php else: ?>
+                        <div class="empty-image w-100 mb-3">
+                            <i class="bi bi-image fs-2 mb-2"></i>
+                            <span>Poster Belum Ada</span>
+                        </div>
+                    <?php endif; ?>
+
+                    <div class="px-2 pb-2 d-flex flex-column flex-grow-1">
+                        <h6 class="fw-bold text-white mb-1"><?php echo htmlspecialchars($game['Game_Name']); ?></h6>
+                        <span class="text-secondary small mb-2"><i class="bi bi-tags-fill me-1"></i> <?php echo htmlspecialchars($game['Genre']); ?></span>
+                        
+                        <div class="d-flex align-items-center mb-3 flex-wrap gap-1">
+                            <?php 
+                            $avg_rating = !empty($game['avg_rating']) ? number_format($game['avg_rating'], 1) : null;
+                            $review_count = !empty($game['review_count']) ? $game['review_count'] : 0;
+                            if ($avg_rating): 
+                                $rating_val = floatval($game['avg_rating']);
+                                $full_stars = floor($rating_val);
+                                $half_star = ($rating_val - $full_stars) >= 0.5 ? 1 : 0;
+                                $empty_stars = 5 - $full_stars - $half_star;
+                            ?>
+                                <span class="text-warning small d-inline-flex align-items-center">
+                                    <?php
+                                    for ($i = 0; $i < $full_stars; $i++) echo '<i class="bi bi-star-fill me-1"></i>';
+                                    if ($half_star) echo '<i class="bi bi-star-half me-1"></i>';
+                                    for ($i = 0; $i < $empty_stars; $i++) echo '<i class="bi bi-star me-1"></i>';
+                                    ?>
+                                </span>
+                                <span class="text-secondary ms-1" style="font-size: 0.8rem;"><?php echo $avg_rating; ?> (<?php echo $review_count; ?>)</span>
+                            <?php else: ?>
+                                <span class="text-muted small d-inline-flex align-items-center">
+                                    <?php for ($i = 0; $i < 5; $i++) echo '<i class="bi bi-star me-1"></i>'; ?>
+                                </span>
+                                <span class="text-secondary ms-1" style="font-size: 0.8rem;">(0)</span>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="mt-auto d-flex justify-content-between align-items-center">
+                            <span class="fw-bold text-accent fs-6">Rp <?php echo number_format($game['Hourly_Price'], 0, ',', '.'); ?><small class="text-secondary fw-normal">/jam</small></span>
+                            <a href="index.php?page=rent&game_id=<?php echo $game['GameID']; ?>" class="btn btn-sm bg-accent fw-bold px-3 py-1 rounded-2">Sewa</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php
+        }
+    } else {
+        echo '<div class="col-12"><p class="text-secondary small">Tidak ada game terpopuler.</p></div>';
+    }
+    ?>
+</div>
+
+<!-- Section 2: Rilis Terbaru -->
+<div class="d-flex justify-content-between align-items-end mb-4 animate-fade-in text-white">
+    <h4 class="fw-bold m-0">
+        <i class="bi bi-fire text-accent me-2"></i> Rilis Terbaru
+    </h4>
+    <a href="index.php?page=games" class="text-accent text-decoration-none small fw-semibold">
+        Lihat Semua Katalog <i class="bi bi-arrow-right ms-1"></i>
+    </a>
+</div>
+
+<div class="row g-4 mb-5">
+    <?php
+    if ($newest_home_query && mysqli_num_rows($newest_home_query) > 0) {
+        while ($game = mysqli_fetch_assoc($newest_home_query)) {
+            // Gunakan standard card_game.php
             include 'includes/card_game.php';
         }
     } else {
-        echo '<div class="col-12"><p class="text-secondary small">Tidak ada game ditemukan.</p></div>';
+        echo '<div class="col-12"><p class="text-secondary small">Tidak ada game terbaru.</p></div>';
     }
     ?>
 </div>

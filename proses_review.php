@@ -15,7 +15,7 @@ $comment = isset($_POST['comment']) ? trim($_POST['comment']) : '';
 
 if ($rating < 1 || $rating > 5) {
     $_SESSION['toast'] = ['type' => 'error', 'message' => 'Rating tidak valid! Harus bernilai antara 1 s/d 5.'];
-    header("Location: index.php?page=profile");
+    header("Location: index.php?page=collections");
     exit;
 }
 
@@ -23,7 +23,7 @@ if ($rating < 1 || $rating > 5) {
 $check_query = mysqli_query($conn, "SELECT ReviewID FROM reviews WHERE UserID = '$user_id' AND GameID = '$game_id'");
 if (mysqli_num_rows($check_query) > 0) {
     $_SESSION['toast'] = ['type' => 'error', 'message' => 'Anda sudah pernah memberikan ulasan untuk game ini!'];
-    header("Location: index.php?page=profile");
+    header("Location: index.php?page=collections");
     exit;
 }
 
@@ -41,6 +41,6 @@ if ($query) {
     $_SESSION['toast'] = ['type' => 'error', 'message' => 'Gagal mengirimkan ulasan! Terjadi kesalahan server.'];
 }
 
-header("Location: index.php?page=profile");
+header("Location: index.php?page=collections");
 exit;
 ?>

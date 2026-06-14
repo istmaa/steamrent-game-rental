@@ -113,18 +113,15 @@ if (isset($_SESSION['user_id'])) {
                 <a class="nav-link nav-item-custom <?php echo ($page == 'home') ? 'active text-white' : 'text-secondary'; ?> px-3 py-2 rounded-2 d-flex align-items-center justify-content-center justify-content-md-start gap-2" href="index.php?page=home">
                     <i class="bi bi-house-door-fill"></i> Beranda
                 </a>
+                <a class="nav-link nav-item-custom <?php echo ($page == 'trending') ? 'active text-white' : 'text-secondary'; ?> px-3 py-2 rounded-2 d-flex align-items-center justify-content-center justify-content-md-start gap-2" href="index.php?page=trending">
+                    <i class="bi bi-graph-up-arrow"></i> Sedang Tren
+                </a>
                 <a class="nav-link nav-item-custom <?php echo ($page == 'games') ? 'active text-white' : 'text-secondary'; ?> px-3 py-2 rounded-2 d-flex align-items-center justify-content-center justify-content-md-start gap-2" href="index.php?page=games">
                     <i class="bi bi-controller"></i> Katalog Game
                 </a>
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <a class="nav-link nav-item-custom <?php echo ($page == 'collections') ? 'active text-white' : 'text-secondary'; ?> px-3 py-2 rounded-2 d-flex align-items-center justify-content-center justify-content-md-start gap-2" href="index.php?page=collections">
                         <i class="bi bi-collection-play-fill"></i> Koleksi Game
-                    </a>
-                    <a class="nav-link nav-item-custom <?php echo ($page == 'profile') ? 'active text-white' : 'text-secondary'; ?> px-3 py-2 rounded-2 d-flex align-items-center justify-content-center justify-content-md-start gap-2" href="index.php?page=profile">
-                        <i class="bi bi-person-fill"></i> Profil Saya
-                    </a>
-                    <a class="nav-link nav-item-custom <?php echo ($page == 'rental-history') ? 'active text-white' : 'text-secondary'; ?> px-3 py-2 rounded-2 d-flex align-items-center justify-content-center justify-content-md-start gap-2" href="index.php?page=rental-history">
-                        <i class="bi bi-journal-text"></i> Riwayat Rental
                     </a>
                 <?php endif; ?>
             </nav>

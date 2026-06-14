@@ -69,10 +69,10 @@ if (!empty($_SESSION['register_errors'])) {
 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 $fullname_escaped = mysqli_real_escape_string($conn, $fullname);
 
-// Simpan data pendaftaran user baru (mengisi Name, Email, Password, Balance)
+// Simpan data pendaftaran user baru (mengisi Name, FullName, Email, Password, Balance)
 $query = mysqli_query($conn, "
-    INSERT INTO users (Name, Email, Password, Balance) 
-    VALUES ('$username_escaped', '$email_escaped', '$hashed_password', 0)
+    INSERT INTO users (Name, FullName, Email, Password, Balance) 
+    VALUES ('$username_escaped', '$fullname_escaped', '$email_escaped', '$hashed_password', 0)
 ");
 
 if ($query) {

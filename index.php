@@ -24,20 +24,19 @@ switch ($page) {
     case 'home':
         include_once 'pages/home.php';
         break;
+    case 'trending':
+        include_once 'pages/trending.php';
+        break;
     case 'games':
         include_once 'pages/games.php';
         break;
     case 'collections':
+    case 'rental-history':
+    case 'topup':
         include_once 'pages/collections.php';
         break;
     case 'profile':
         include_once 'pages/profile.php';
-        break;
-    case 'rental-history':
-        include_once 'pages/rental-history.php';
-        break;
-    case 'topup':
-        include_once 'pages/topup.php';
         break;
     case 'rent':
         include_once 'pages/rent.php';

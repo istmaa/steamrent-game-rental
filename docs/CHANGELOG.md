@@ -2,7 +2,13 @@
 
 All notable changes to the SteamRent project are documented in this file.
 
----
+## [v1.6] - 2026-06-13
+### Added
+- **Top-Up Sidebar Link**: Integrated "Top-Up Saldo" into the sidebar navigation layout in `includes/header.php`.
+
+### Fixed
+- **Redirect Target after Top-Up**: Configured `proses_topup.php` to redirect users back to their `profile` page on success so they can view their updated balance, instead of routing them to `collections`.
+- **Fail-Safe Preloader**: Verified preloader removal immediately upon loading and verified smooth theme/carousel integration.
 
 ## [v1.4] - 2026-06-13
 ### Added
