@@ -1,10 +1,12 @@
 # SteamRent
 
-SteamRent is a web-based game rental platform that allows users to browse game catalogs, rent games, manage collections, write reviews, and top up account balances.
+SteamRent is a web-based game rental platform developed using PHP and MySQL. The application enables users to browse game catalogs, rent games, manage collections, submit reviews, and perform balance top-ups through a responsive and user-friendly interface.
 
-Originally developed as a university course project, SteamRent was later refined as a personal portfolio project to demonstrate web development and database management skills using PHP and MySQL.
+Originally developed as a university project, SteamRent was later refined as a personal portfolio project to showcase web application development, database design, and user experience implementation.
 
-## Features
+---
+
+## Key Features
 
 ### User Features
 
@@ -36,6 +38,8 @@ Originally developed as a university course project, SteamRent was later refined
 
 * Reviews & Ratings
 
+---
+
 ## Technology Stack
 
 ### Frontend
@@ -56,74 +60,146 @@ Originally developed as a university course project, SteamRent was later refined
 
 * XAMPP
 
+---
+
 ## Screenshots
 
 ### Home Page
 
 ![Home](screenshots/home.png)
 
+The landing page of SteamRent featuring a hero banner, featured games, navigation menu, and quick access to the platform's main services.
+
+---
+
 ### Trending Games
 
 ![Trending](screenshots/trending.png)
+
+Displays the most popular games based on rental activity, allowing users to discover currently trending titles within the platform.
+
+---
 
 ### Game Catalog
 
 ![Catalog](screenshots/catalog.png)
 
+A searchable and filterable catalog containing available games, complete with cover images, rental prices, and game information.
+
+---
+
 ### Collection Dashboard
 
 ![Collection](screenshots/collection.png)
+
+Allows users to view and manage their rented games, track rental status, and access their personal game collection.
+
+---
 
 ### Profile Page
 
 ![Profile](screenshots/profile.png)
 
+Provides account management features including profile information, avatar customization, account settings, and balance information.
+
+---
+
 ### Login Page
 
 ![Login](screenshots/login.png)
 
+Secure authentication page that enables users to access their accounts and platform features.
+
+---
+
 ## Responsive Design
 
-Optimized for:
+SteamRent is designed to provide a consistent experience across multiple screen sizes and devices:
 
 * Mobile
 * Tablet
 * Laptop
 * Desktop
 
+---
+
 ## Installation
 
-1. Clone the repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/istmaa/steamrent-game-rental.git
 ```
 
-2. Move the project into:
+### 2. Move the Project
+
+Place the project folder inside:
 
 ```text
 xampp/htdocs/
 ```
 
-3. Start Apache and MySQL from XAMPP.
+### 3. Start XAMPP Services
 
-4. Create a MySQL database and import the SQL file.
+Start the following services:
 
-5. Configure database credentials in:
+* Apache
+* MySQL
+
+### 4. Configure the Database
+
+Create a MySQL database and import the provided SQL file.
+
+### 5. Configure Database Credentials
+
+Edit the database configuration file:
 
 ```text
 includes/config.php
 ```
 
-6. Open:
+### 6. Run the Application
+
+Open your browser and visit:
 
 ```text
 http://localhost/steamrent
 ```
 
-## Academic Project
+---
 
-This project was originally developed as part of a university course project and later refined as a personal portfolio project.
+## Project Structure
+
+```text
+steamrent/
+├── assets/
+│   ├── css/
+│   ├── js/
+│   └── images/
+├── includes/
+├── pages/
+├── uploads/
+├── docs/
+├── index.php
+├── login.php
+├── register.php
+└── README.md
+```
+
+---
+
+## Academic Background
+
+This project was originally developed as part of a university web programming and database course project. The repository has since been refined and organized as a portfolio project to demonstrate practical implementation of:
+
+* Web Application Development
+* Database Design
+* User Authentication
+* CRUD Operations
+* Responsive User Interface Design
+* PHP & MySQL Integration
+
+---
 
 ## License
 
