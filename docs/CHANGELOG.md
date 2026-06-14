@@ -2,6 +2,20 @@
 
 All notable changes to the SteamRent project are documented in this file.
 
+## [v1.9] - 2026-06-13
+### Removed
+- **Testing Users**: Removed all development/testing accounts (`Anonimus`, `anonimus2`, `anonimuss`) from the `users` table, resetting the auto-increment starting index back to 1.
+- **Testing Transactions & Logs**: Cleaned up potential legacy transaction entries, ensuring `rental`, `payment`, `sessionlog`, `reviews`, and `topup` tables are completely empty.
+
+### Preserved
+- **Game Catalog**: Maintained all 50 default game catalog records (names, genres, descriptions, prices, image URLs, badges, and stocks).
+- **Database Objects**: Verified that all schemas, primary/foreign keys, indexes, views (`view_active_rentals`, `view_revenue_summary`), procedures (`create_rental_transaction`), functions (`calculate_rental_cost`), and triggers (`after_rental_insert_trg`, `after_rental_update_trg`) remain fully intact.
+
+## [v1.8.1] - 2026-06-13
+### Changed
+- **Trending Top 3 Podium Cards**: Redesigned the Top 3 to render as a row of three equal-width compact cards. TOP 1 is highlighted with a gold border and subtle shadow, and TOP 2/3 with silver/bronze borders, eliminating massive size or height discrepancies.
+- **Removed Podium Labels**: Replaced wording like "Champion", "Runner-Up", and "Third Place" with clean "TOP 1", "TOP 2", and "TOP 3" badges.
+
 ## [v1.8] - 2026-06-13
 ### Changed
 - **Homepage Section Links**: Converted "Lihat Semua" and "Lihat Semua Katalog" button-styled components to text-only links (`Lihat Semua →`) without border, background, or button shapes, featuring Steam blue coloring and hover transitions.
@@ -117,3 +131,9 @@ The following is a comprehensive summary of key milestones across previous Steam
 - **Steam-style Text Links**: Removed button shapes, borders, and backgrounds from homepage section links.
 - **Unified Leaderboard list**: Restructured Top 10 items into a single row layout with fixed column widths, removing oversized podium cards.
 - **Subtle Rating Visibility**: Updated low contrast labels to be readable in both theme modes.
+
+### v1.9 - Database Cleanup
+- Removed all testing/development user accounts.
+- Empty table records for rental, payment, sessionlog, reviews, and topups.
+- Preserved default 50-game catalog entries with proper descriptions and images.
+- Validated views, functions, stored procedures, and triggers.

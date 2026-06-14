@@ -42,38 +42,154 @@ if ($trending_query) {
 </div>
 
 <?php if (!empty($games_list)): ?>
+    
+    <!-- TOP 3 LEADERBOARD CARDS (Side-by-Side) -->
+    <div class="row g-4 mb-5 text-white">
+        <!-- TOP 1 -->
+        <?php if (isset($games_list[0])): 
+            $g1 = $games_list[0];
+            $g1_rating = floatval($g1['avg_rating']);
+        ?>
+            <div class="col-12 col-md-4 animate-fade-in">
+                <div class="game-card h-100 d-flex flex-column glass-panel p-3 position-relative" style="border: 1.5px solid #eab308 !important; box-shadow: 0 4px 15px rgba(234, 179, 8, 0.08) !important;">
+                    <div class="mb-3">
+                        <span class="badge-custom-rank badge-gold-solid"><i class="bi bi-trophy-fill me-1"></i>🥇 TOP 1</span>
+                    </div>
+                    <?php if (!empty($g1['Image_URL'])): ?>
+                        <div class="card-img-wrapper rounded-3 mb-3 overflow-hidden" style="height: 180px;">
+                            <img src="<?php echo htmlspecialchars($g1['Image_URL']); ?>" class="card-img-custom w-100 h-100" style="object-fit: cover;" alt="">
+                        </div>
+                    <?php endif; ?>
+                    <div class="d-flex flex-column flex-grow-1">
+                        <h5 class="fw-bold text-white mb-1 fs-5"><?php echo htmlspecialchars($g1['Game_Name']); ?></h5>
+                        <span class="text-secondary small mb-3"><i class="bi bi-tags-fill me-1 text-accent"></i><?php echo htmlspecialchars($g1['Genre']); ?></span>
+                        
+                        <div class="d-flex flex-column gap-1 mb-3 mt-auto">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-secondary">Total Disewa:</small>
+                                <span class="fw-bold text-light small"><?php echo $g1['total_rentals']; ?> Sesi</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-secondary">Penilaian:</small>
+                                <?php if ($g1_rating > 0): ?>
+                                    <span class="text-warning small fw-semibold"><i class="bi bi-star-fill text-warning me-1"></i><?php echo number_format($g1_rating, 1); ?></span>
+                                <?php else: ?>
+                                    <span class="rating-text-subtle small">Belum ada rating</span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex align-items-center justify-content-between pt-2 border-top border-secondary border-opacity-10 mt-auto">
+                            <span class="fw-bold text-accent fs-6">Rp <?php echo number_format($g1['Hourly_Price'], 0, ',', '.'); ?><small class="text-secondary fw-normal">/jam</small></span>
+                            <a href="index.php?page=rent&game_id=<?php echo $g1['GameID']; ?>" class="btn btn-sm bg-accent fw-bold text-dark px-3 py-1.5 rounded-2">Sewa</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <!-- TOP 2 -->
+        <?php if (isset($games_list[1])): 
+            $g2 = $games_list[1];
+            $g2_rating = floatval($g2['avg_rating']);
+        ?>
+            <div class="col-12 col-md-4 animate-fade-in">
+                <div class="game-card h-100 d-flex flex-column glass-panel p-3 position-relative" style="border: 1.5px solid #cbd5e1 !important; box-shadow: 0 4px 15px rgba(203, 213, 225, 0.05) !important;">
+                    <div class="mb-3">
+                        <span class="badge-custom-rank badge-silver-solid"><i class="bi bi-award-fill me-1"></i>🥈 TOP 2</span>
+                    </div>
+                    <?php if (!empty($g2['Image_URL'])): ?>
+                        <div class="card-img-wrapper rounded-3 mb-3 overflow-hidden" style="height: 180px;">
+                            <img src="<?php echo htmlspecialchars($g2['Image_URL']); ?>" class="card-img-custom w-100 h-100" style="object-fit: cover;" alt="">
+                        </div>
+                    <?php endif; ?>
+                    <div class="d-flex flex-column flex-grow-1">
+                        <h5 class="fw-bold text-white mb-1 fs-5"><?php echo htmlspecialchars($g2['Game_Name']); ?></h5>
+                        <span class="text-secondary small mb-3"><i class="bi bi-tags-fill me-1 text-accent"></i><?php echo htmlspecialchars($g2['Genre']); ?></span>
+                        
+                        <div class="d-flex flex-column gap-1 mb-3 mt-auto">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-secondary">Total Disewa:</small>
+                                <span class="fw-bold text-light small"><?php echo $g2['total_rentals']; ?> Sesi</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-secondary">Penilaian:</small>
+                                <?php if ($g2_rating > 0): ?>
+                                    <span class="text-warning small fw-semibold"><i class="bi bi-star-fill text-warning me-1"></i><?php echo number_format($g2_rating, 1); ?></span>
+                                <?php else: ?>
+                                    <span class="rating-text-subtle small">Belum ada rating</span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex align-items-center justify-content-between pt-2 border-top border-secondary border-opacity-10 mt-auto">
+                            <span class="fw-bold text-accent fs-6">Rp <?php echo number_format($g2['Hourly_Price'], 0, ',', '.'); ?><small class="text-secondary fw-normal">/jam</small></span>
+                            <a href="index.php?page=rent&game_id=<?php echo $g2['GameID']; ?>" class="btn btn-sm bg-accent fw-bold text-dark px-3 py-1.5 rounded-2">Sewa</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <!-- TOP 3 -->
+        <?php if (isset($games_list[2])): 
+            $g3 = $games_list[2];
+            $g3_rating = floatval($g3['avg_rating']);
+        ?>
+            <div class="col-12 col-md-4 animate-fade-in">
+                <div class="game-card h-100 d-flex flex-column glass-panel p-3 position-relative" style="border: 1.5px solid #b45309 !important; box-shadow: 0 4px 15px rgba(180, 83, 9, 0.05) !important;">
+                    <div class="mb-3">
+                        <span class="badge-custom-rank badge-bronze-solid"><i class="bi bi-award-fill me-1"></i>🥉 TOP 3</span>
+                    </div>
+                    <?php if (!empty($g3['Image_URL'])): ?>
+                        <div class="card-img-wrapper rounded-3 mb-3 overflow-hidden" style="height: 180px;">
+                            <img src="<?php echo htmlspecialchars($g3['Image_URL']); ?>" class="card-img-custom w-100 h-100" style="object-fit: cover;" alt="">
+                        </div>
+                    <?php endif; ?>
+                    <div class="d-flex flex-column flex-grow-1">
+                        <h5 class="fw-bold text-white mb-1 fs-5"><?php echo htmlspecialchars($g3['Game_Name']); ?></h5>
+                        <span class="text-secondary small mb-3"><i class="bi bi-tags-fill me-1 text-accent"></i><?php echo htmlspecialchars($g3['Genre']); ?></span>
+                        
+                        <div class="d-flex flex-column gap-1 mb-3 mt-auto">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-secondary">Total Disewa:</small>
+                                <span class="fw-bold text-light small"><?php echo $g3['total_rentals']; ?> Sesi</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-secondary">Penilaian:</small>
+                                <?php if ($g3_rating > 0): ?>
+                                    <span class="text-warning small fw-semibold"><i class="bi bi-star-fill text-warning me-1"></i><?php echo number_format($g3_rating, 1); ?></span>
+                                <?php else: ?>
+                                    <span class="rating-text-subtle small">Belum ada rating</span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex align-items-center justify-content-between pt-2 border-top border-secondary border-opacity-10 mt-auto">
+                            <span class="fw-bold text-accent fs-6">Rp <?php echo number_format($g3['Hourly_Price'], 0, ',', '.'); ?><small class="text-secondary fw-normal">/jam</small></span>
+                            <a href="index.php?page=rent&game_id=<?php echo $g3['GameID']; ?>" class="btn btn-sm bg-accent fw-bold text-dark px-3 py-1.5 rounded-2">Sewa</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
+
+    <!-- LEADERBOARD RANK 4-10 -->
+    <h4 class="fw-bold text-white mb-4 mt-5"><i class="bi bi-list-ol text-accent me-2"></i>Papan Peringkat #4 - #10</h4>
+    
     <div class="d-flex flex-column gap-3 animate-fade-in mb-5 text-white">
         <?php
-        for ($idx = 0; $idx < count($games_list); $idx++) {
+        for ($idx = 3; $idx < count($games_list); $idx++) {
             $g = $games_list[$idx];
             $g_rating = floatval($g['avg_rating']);
             $rank = $idx + 1;
             
-            if ($rank === 1) {
-                $row_class = "trending-row-item d-flex align-items-center justify-content-between gap-3 border rounded py-3 px-3 glass-panel rank-1-premium";
-                $badge_html = '<span class="badge-custom-rank badge-gold-solid"><i class="bi bi-trophy-fill me-1"></i>🥇 TOP 1</span>';
-                $img_style = 'width: 55px; height: 72px; object-fit: cover;';
-                $title_class = 'fw-bold text-white fs-5 text-truncate mb-0';
-                $genre_style = 'font-size: 14px;';
-            } elseif ($rank === 2) {
-                $row_class = "trending-row-item d-flex align-items-center justify-content-between gap-3 border rounded py-2.5 px-3 glass-panel rank-2-silver";
-                $badge_html = '<span class="badge-custom-rank badge-silver-solid"><i class="bi bi-award-fill me-1"></i>🥈 TOP 2</span>';
-                $img_style = 'width: 48px; height: 62px; object-fit: cover;';
-                $title_class = 'fw-bold text-white text-truncate mb-0';
-                $genre_style = 'font-size: 13px;';
-            } elseif ($rank === 3) {
-                $row_class = "trending-row-item d-flex align-items-center justify-content-between gap-3 border rounded py-2.5 px-3 glass-panel rank-3-bronze";
-                $badge_html = '<span class="badge-custom-rank badge-bronze-solid"><i class="bi bi-award-fill me-1"></i>🥉 TOP 3</span>';
-                $img_style = 'width: 48px; height: 62px; object-fit: cover;';
-                $title_class = 'fw-bold text-white text-truncate mb-0';
-                $genre_style = 'font-size: 13px;';
-            } else {
-                $row_class = "trending-row-item d-flex align-items-center justify-content-between gap-3 border border-secondary border-opacity-25 rounded py-2 px-3 glass-panel";
-                $badge_html = '<div class="rank-number">#' . $rank . '</div>';
-                $img_style = 'width: 45px; height: 58px; object-fit: cover;';
-                $title_class = 'fw-bold text-white text-truncate mb-0';
-                $genre_style = 'font-size: 13px;';
-            }
+            $row_class = "trending-row-item d-flex align-items-center justify-content-between gap-3 border border-secondary border-opacity-25 rounded py-2 px-3 glass-panel";
+            $badge_html = '<div class="rank-number">#' . $rank . '</div>';
+            $img_style = 'width: 45px; height: 58px; object-fit: cover;';
+            $title_class = 'fw-bold text-white text-truncate mb-0';
+            $genre_style = 'font-size: 13px;';
             ?>
             <div class="<?php echo $row_class; ?>">
                 
