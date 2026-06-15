@@ -4,6 +4,11 @@
 
 **Current Version:** v1.0.0 Stable
 
+**Live Demo:** https://haqi-steamrent.trpl25.com
+
+**Repository:** https://github.com/istmaa/steamrent-game-rental
+
+
 SteamRent is a web-based game rental platform developed using PHP and MySQL. The application enables users to browse game catalogs, rent games, manage collections, submit reviews, and perform balance top-ups through a responsive and user-friendly interface.
 
 Originally developed as a university project, SteamRent was later refined as a personal portfolio project to showcase web application development, database design, and user experience implementation.
@@ -51,6 +56,15 @@ The project focuses on practical implementation of:
 **Repository Type:** Public
 
 This repository is maintained as a portfolio and educational project demonstrating the development of a full-stack web application using PHP Native and MySQL.
+
+## Live Demo
+
+The application has been successfully deployed and can be accessed online:
+
+**Website:** https://haqi-steamrent.trpl25.com
+
+The live version demonstrates the complete SteamRent platform, including user authentication, game rental management, wallet top-up functionality, reviews and ratings, user collections, and responsive design.
+
 
 ---
 
