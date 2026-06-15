@@ -41,12 +41,15 @@ $history_query = mysqli_query($conn, "
 
 // 4. Ambil data session log
 $session_query = mysqli_query($conn, "
-    SELECT s.*, g.Game_Name 
-    FROM sessionlog s 
-    JOIN rental r ON s.RentalID = r.RentalID 
-    JOIN game g ON r.GameID = g.GameID 
-    WHERE r.UserID = '$user_id' 
-    ORDER BY s.Login_Time DESC 
+    SELECT
+        s.*,
+        r.Status AS RentalStatus,
+        g.Game_Name
+    FROM sessionlog s
+    JOIN rental r ON s.RentalID = r.RentalID
+    JOIN game g ON r.GameID = g.GameID
+    WHERE r.UserID = '$user_id'
+    ORDER BY s.Login_Time DESC
     LIMIT 10
 ");
 
@@ -228,8 +231,21 @@ $topup_history_query = mysqli_query($conn, "
                         <?php
                         if ($session_query && mysqli_num_rows($session_query) > 0) {
                             while ($s = mysqli_fetch_assoc($session_query)) {
-                                $logout_time = $s['Logout_Time'] ? date('d M Y H:i', strtotime($s['Logout_Time'])) : '<span class="text-success small fw-semibold">Sesi Aktif</span>';
-                                $status_badge = $s['Logout_Time'] ? '<span class="badge bg-secondary bg-opacity-25 text-secondary border border-secondary border-opacity-25">SELESAI</span>' : '<span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50">AKTIF</span>';
+                                if ($s['RentalStatus'] == 'active') {
+                                
+                                    $logout_time = '<span class="text-success small fw-semibold">Sesi Aktif</span>';
+                                
+                                    $status_badge = '<span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50">AKTIF</span>';
+                                
+                                } else {
+                                
+                                    $logout_time = $s['Logout_Time']
+                                        ? date('d M Y H:i', strtotime($s['Logout_Time']))
+                                        : '-';
+                                
+                                    $status_badge = '<span class="badge bg-secondary bg-opacity-25 text-secondary border border-secondary border-opacity-25">SELESAI</span>';
+                                }
+                                
                                 ?>
                                 <tr>
                                     <td data-label="Game" class="text-white fw-semibold"><?php echo htmlspecialchars($s['Game_Name']); ?></td>
